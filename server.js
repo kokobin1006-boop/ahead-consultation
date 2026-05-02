@@ -3,17 +3,19 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-const PORT = 8082;
-const DATA_FILE = path.join(__dirname, 'data', 'submissions.json');
-const AHEAD_DATA_FILE = path.join(__dirname, 'data', 'ahead-submissions.json');
+const PORT = process.env.PORT || 8082;
+const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
+const DATA_FILE = path.join(DATA_DIR, 'submissions.json');
+const AHEAD_DATA_FILE = path.join(DATA_DIR, 'ahead-submissions.json');
+
+// data 디렉토리 없으면 생성
+if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 const ADMIN_PASSWORD = 'scalpit2024';
 const AHEAD_ADMIN_PASSWORD = 'ahead2024';
 
 app.use(express.json());
 // 상담 폼 (우선순위 높음)
 app.use(express.static(path.join(__dirname, 'public')));
-// 기존 스칼프잇 가맹 사이트
-app.use(express.static('/Users/kohanbin/scalpit-franchise'));
 
 function readSubmissions() {
   if (!fs.existsSync(DATA_FILE)) return [];
