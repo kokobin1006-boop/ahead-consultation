@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>스칼프잇 | 사전 상담 설문지</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --red: #7B2D2D;
+      --red-light: #9B3D3D;
+      --red-dark: #5A1F1F;
+      --cream: #FDF6F0;
+      --dark: #1C0A0A;
+      --text: #2C1A1A;
+      --text-light: #7A5A5A;
+      --gray: #F7F0ED;
+      --border: #E8D8D0;
+      --white: #ffffff;
+      --radius: 14px;
+      --shadow: 0 4px 24px rgba(123,45,45,0.10);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── 헤더 ── */
+    .header {
+      background: var(--dark);
+      padding: 18px 24px;
+      text-align: center;
+      border-bottom: 2px solid var(--red);
+    }
+    .logo { font-size: 22px; font-weight: 900; color: #fff; letter-spacing: 2px; }
+    .logo span { color: var(--red-light); }
+    .header-sub { color: #C9A090; font-size: 12px; margin-top: 4px; letter-spacing: 1px; }
+
+    /* ── 컨테이너 ── */
+    .wrap {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 32px 16px 80px;
+    }
+
+    /* ── 공지 배너 ── */
+    .notice {
+      background: #FFF3F3;
+      border: 1px solid #F0C0C0;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-bottom: 28px;
+      font-size: 13px;
+      color: var(--red-dark);
+      line-height: 1.7;
+    }
+    .notice strong { display: block; margin-bottom: 4px; font-size: 14px; }
+
+    /* ── 진행바 ── */
+    .progress-wrap {
+      margin-bottom: 32px;
+    }
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--text-light);
+      margin-bottom: 8px;
+    }
+    .progress-label span { font-weight: 700; color: var(--red); }
+    .progress-bar {
+      height: 6px;
+      background: var(--border);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--red-dark), var(--red-light));
+      border-radius: 99px;
+      transition: width 0.4s ease;
+    }
+
+    /* ── 단계(step) ── */
+    .step { display: none; }
+    .step.active { display: block; animation: fadeIn 0.35s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .step-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 6px;
+    }
+    .step-desc {
+      font-size: 14px;
+      color: var(--text-light);
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    /* ── 질문 블록 ── */
+    .q-block { margin-bottom: 28px; }
+    .q-label {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .q-label .req { color: var(--red); font-size: 16px; }
+    .q-hint { font-size: 12px; color: var(--text-light); font-weight: 400; margin-left: 4px; }
+
+    /* ── 라디오/체크박스 카드 ── */
+    .card-options { display: flex; flex-direction: column; gap: 10px; }
+    .card-options.row { flex-direction: row; flex-wrap: wrap; }
+    .card-option { position: relative; }
+    .card-option input { position: absolute; opacity: 0; width: 0; height: 0; }
+    .card-option label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      background: var(--white);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      transition: all 0.2s;
+      user-select: none;
+    }
+    .card-option label:hover { border-color: var(--red-light); background: #FFF8F6; }
+    .card-option input:checked + label {
+      border-color: var(--red);
+      background: #FFF0EE;
+      color: var(--red-dark);
+    }
+    .card-option .icon {
+      width: 22px; height: 22px;
+      border: 2px solid var(--border);
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+      font-size: 11px;
+    }
+    .card-option input:checked + label .icon {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+    }
+    /* 체크박스용 */
+    .card-option.checkbox .icon { border-radius: 6px; }
+
+    /* 그리드 옵션 (두피 고민용) */
+    .grid-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 400px) { .grid-options { grid-template-columns: 1fr; } }
+
+    /* ── 텍스트 입력 ── */
+    .text-input, .select-input {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--white);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 15px;
+      font-family: 'Noto Sans KR', sans-serif;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .text-input:focus, .select-input:focus { border-color: var(--red); }
+    .text-input::placeholder { color: #C5AEAC; }
+
+    .input-row { display: flex; gap: 12px; }
+    .input-row .q-block { flex: 1; }
+
+    /* ── 버튼 ── */
+    .btn-wrap {
+      display: flex;
+      gap: 12px;
+      margin-top: 36px;
+    }
+    .btn {
+      flex: 1;
+      padding: 16px;
+      border-radius: var(--radius);
+      font-size: 16px;
+      font-weight: 700;
+      font-family: 'Noto Sans KR', sans-serif;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    .btn-prev {
+      background: var(--white);
+      border: 2px solid var(--border);
+      color: var(--text-light);
+    }
+    .btn-prev:hover { border-color: var(--red-light); color: var(--red); }
+    .btn-next {
+      background: var(--red);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(123,45,45,0.25);
+    }
+    .btn-next:hover { background: var(--red-light); transform: translateY(-1px); }
+    .btn-next:active { transform: translateY(0); }
+    .btn-submit {
+      background: linear-gradient(135deg, var(--red-dark), var(--red));
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(123,45,45,0.30);
+    }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(123,45,45,0.35); }
+
+    /* ── 완료 화면 ── */
+    .done-screen {
+      display: none;
+      text-align: center;
+      padding: 60px 20px;
+      animation: fadeIn 0.4s ease;
+    }
+    .done-screen.show { display: block; }
+    .done-icon {
+      width: 80px; height: 80px;
+      background: linear-gradient(135deg, var(--red-dark), var(--red-light));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 28px;
+      font-size: 36px;
+    }
+    .done-title { font-size: 24px; font-weight: 900; color: var(--dark); margin-bottom: 12px; }
+    .done-desc { font-size: 15px; color: var(--text-light); line-height: 1.8; }
+    .done-info {
+      margin-top: 32px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      text-align: left;
+    }
+    .done-info-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; border-bottom: 1px solid var(--gray); }
+    .done-info-row:last-child { border-bottom: none; }
+    .done-info-row .key { color: var(--text-light); }
+    .done-info-row .val { font-weight: 700; color: var(--dark); }
+
+    /* ── 에러 ── */
+    .error-msg { font-size: 12px; color: var(--red); margin-top: 6px; display: none; }
+    .error-msg.show { display: block; }
+
+    /* ── 구분선 ── */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 8px 0 24px; }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">SCALP<span>IT</span></div>
+  <div class="header-sub">두피케어 전문 브랜드</div>
+</header>
+
+<div class="wrap" id="formWrap">
+
+  <!-- 공지 -->
+  <div class="notice">
+    <strong>📌 설문지 작성 안내</strong>
+    2인 이상 예약하신 경우, 일행분께도 해당 링크를 공유하여 모두 작성 부탁드립니다.<br />
+    설문지 미작성 시 상담이 제한될 수 있습니다.
+  </div>
+
+  <!-- 진행바 -->
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span id="stepLabel">1단계 / 5단계</span>
+      <span id="stepPct">20%</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill" style="width:20%"></div>
+    </div>
+  </div>
+
+  <!-- ─────────── STEP 1: 예약 정보 ─────────── -->
+  <div class="step active" id="step1">
+    <div class="step-title">예약 정보</div>
+    <div class="step-desc">예약 유형과 상담 방식을 선택해주세요.</div>
+
+    <div class="q-block">
+      <div class="q-label"><span class="req">*</span> 예약 유형</div>
+      <div class="card-options" id="reservationType">
+        <div class="card-option">
+          <input type="radio" name="reservationType" id="r1" value="1인 예약">
+          <label for="r1"><span class="icon">✓</span> 1인 예약입니다.</label>
+        </div>
+        <div class="card-option">
+          <input type="radio" name="reservationType" id="r2" value="2인 이상 예약">
+          <label for="r2"><span class="icon">✓</span> 2인 이상 예약입니다. (일행 링크 공유 완료!)</label>
+        </div>
+      </div>
+      <div class="error-msg" id="err-reservationType">예약 유형을 선택해주세요.</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-label"><span class="req">*</span> 상담 유형 선택</div>
+      <div class="card-options" id="consultationType">
+        <div class="card-option">
+          <input type="radio" name="consultationType" id="c1" value="힐링 위주">
+          <label for="c1"><span class="icon">✓</span> 힐링 위주, 간단한 상담만 원해요.</label>
+        </div>
+        <div class="card-option">
+          <input type="radio" name="consultationType" id="c2" value="정밀 진단">
+          <label for="c2"><span class="icon">✓</span> 정밀 진단 &amp; 상담 원해요.</label>
+        </div>
+      </div>
+      <div class="error-msg" id="err-consultationType">상담 유형을 선택해주세요.</div>
+    </div>
+
+    <div class="btn-wrap">
+      <button class="btn btn-next" onclick="nextStep(1)">다음 →</button>
+    </div>
+  </div>
+
+  <!-- ─────────── STEP 2: 기본 정보 ─────────── -->
+  <div class="step" id="step2">
+    <div class="step-title">기본 정보</div>
+    <div class="step-desc">고객님의 기본 정보를 입력해주세요.</div>
+
+    <div class="q-block">
+      <div class="q-label"><span class="req">*</span> 성함</div>
+      <input type="text" class="text-input" id="name" placeholder="이름을 입력해주세요" />
+      <div class="error-msg" id="err-name">성함을 입력해주세요.</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-label"><span class="req">*</span> 생년월일</div>
+      <input type="text" class="text-input" id="birthdate" placeholder="예) 19950315" maxlength="8" />
+      <div class="error-msg" id="err-birthdate">생년월일을 입력해주세요.</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-label"><span class="req">*</span> 연락처</div>
+      <input type="tel" class="text-input" id="phone" placeholder="예) 010-1234-5678" />
+      <div class="error-msg" id="err-phone">연락처를 입력해주세요.</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-label"><span class="req">*</span> 주소 <span class="q-hint">(시/구 단위)</span></div>
+      <input type="text" class="text-input" id="address" placeholder="예) 경기도 동탄" />
+      <div class="error-msg" id="err-address">주소를 입력해주세요.</div>
+    </div>
+
+    <div class="btn-wrap">
+      <button class="btn btn-prev" onclick="prevStep(2)">← 이전</button>
+      <button class="btn btn-next" onclick="nextStep(2)">다음 →</button>
+    </div>
+  </div>
+
+  <!-- ─────────── STEP 3: 시술 이력 & 유입 경로 ─────────── -->
+  <div class="step" id="step3">
+    <div class="step-title">시술 이력 &amp; 방문 경로</div>
+    <div class="step-desc">이전 시술 경험과 저희를 알게 된 경로를 알려주세요.</div>
+
+    <div class="q-block">
+      <div class="q-label">관리(치료) 경험 <span class="q-hint">복수 선택 가능</span></div>
+      <div class="card-options" id="treatmentHistory">
+        <div class="card-option checkbox">
+          <input type="checkbox" name="treatmentHistory" id="th1" value="병원치료">
+          <label for="th1"><span class="icon">✓</span> 병원 치료</label>
+        </div>
+        <div class="card-option checkbox">
+          <input type="checkbox" name="treatmentHistory" id="th2" value="전문두피관리">
+          <label for="th2"><span class="icon">✓</span> 전문 두피 관리</label>
+        </div>
+        <div class="card-option checkbox">
+          <input type="checkbox" name="treatmentHistory" id="th3" value="약물복용">
+          <label for="th3"><span class="icon">✓</span> 약물 복용</label>
+        </div>
+        <div class="card-option checkbox">
+          <input type="checkbox" name="treatmentHistory" id="th4" value="두피&모발 시술">
+          <label for="th4"><span class="icon">✓</span> 두피 &amp; 모발 시술 (메조, PRP 등)</label>
+        </div>
+        <div class="card-option checkbox">
+          <input type="checkbox" name="treatmentHistory" id="th5" value="일반 미용실 관리">
+          <label for="th5"><span class="icon">✓</span> 일반 미용실 관리</label>
+        </div>
+        <div class="card-option checkbox">
+          <input type="checkbox" name="treatmentHistory" id="th6" value="홈케어">
+          <label for="th6"><span class="icon">✓</span> 홈케어 (두피 샴푸/앰플 등)</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-label"><span class="req">*</span> 방문 경로</div>
+      <div class="card-options" id="visitSource">
+        <div class="card-option">
+          <input type="radio" name="visitSource" id="vs1" value="인스타그램">
+          <label for="vs1"><span class="icon">✓</span> 인스타그램</label>
+        </div>
+        <div class="card-option">
+          <input type="radio" name="visitSource" id="vs2" value="YouTube">
+          <label for="vs2"><span class="icon">✓</span> YouTube</label>
+        </div>
+        <div class="card-option">
+          <input type="radio" name="visitSource" id="vs3" value="네이버 검색">
+          <label for="vs3"><span class="icon">✓</span> 네이버 검색</label>
+        </div>
+        <div class="card-option">
+          <input type="radio" name="visitSource" id="vs4" value="네이버 카페/블로그">
+          <label for="vs4"><span class="icon">✓</span> 네이버 카페 / 블로그</label>
+        </div>
+        <div class="card-option">
+          <input type="radio" name="visitSource" id="vs5" value="지인 소개">
+          <label for="vs5"><span class="icon">✓</span> 지인 소개</label>
+        </div>
+        <div class="card-option">
+          <input type="radio" name="visitSource" id="vs6" value="간판">
+          <label for="vs6"><span class="icon">✓</span> 간판 / 현수막</label>
+        </div>
+        <div class="card-option">
+          <input type="radio" name="visitSource" id="vs7" value="기타">
+          <label for="vs7"><span class="icon">✓</span> 기타</label>
+        </div>
+      </div>
+      <div class="error-msg" id="err-visitSource">방문 경로를 선택해주세요.</div>
+    </div>
+
+    <div class="btn-wrap">
+      <button class="btn btn-prev" onclick="prevStep(3)">← 이전</button>
+      <button class="btn btn-next" onclick="nextStep(3)">다음 →</button>
+    </div>
+  </div>
+
+  <!-- ─────────── STEP 4: 두피 고민 & 생활 습관 ─────────── -->
+  <div class="step" id="step4">
+    <div class="step-title">두피 고민 &amp; 생활 습관</div>
+    <div class="step-desc">현재 두피 상태와 생활 패턴을 알려주세요.</div>
+
+    <div class="q-block">
+      <div class="q-label"><span class="req">*</span> 주요 두피 고민 <span class="q-hint">복수 선택 가능</span></div>
+      <div class="grid-options" id="scalpConcerns">
+        <div class="card-option checkbox">
+          <input type="checkbox" name="scalpConcerns" id="sc1" value="탈모">
+          <label for="sc1"><span class="icon">✓</span> 탈모</label>
+        </div>
+        <div class="card-option checkbox">
+          <input type="checkbox" name="scalpConcerns" id="sc2" value="가려움">
+          <label for="sc2"><span class="icon">✓</span> 가려움</label>
+        </div>
+        <div class="card-option checkbox">
+          <input type="checkbox" name="scalpConcerns" id="sc3" value="건조">
+          <label for="sc3"><span class="icon">✓</span> 건조</label>
+        </div>
+        <div class="card-option checkbox">
+          <input type="checkbox" name="scalpConcerns" id="sc4" value="지성">
+          <label for="sc4"><span class="icon">✓</span> 지성 / 번들거림</label>
+        </div>
+        <div class="card-option checkbox">
+          <input type="checkbox" name="scalpConcerns" id="sc5" value="비듬">
+          <label for="sc5"><span class="icon">✓</span> 비듬</label>
+        </div>
+        <div class="card-option checkbox">
+          <input type="checkbox" name="scalpConcerns" id="sc6" value="홍반">
+          <label for="sc6"><span class="icon">✓</span> 홍반 / 발적</label>
+        </div>
+        <div class="card-option checkbox">
+          <input type="checkbox" name="scalpConcerns" id="sc7" value="악취">
+          <label for="sc7"><span class="icon">✓</span> 악취</label>
+        </div>
+        <div class="card-option checkbox">
+          <input type="checkbox" name="scalpConcerns" id="sc8" value="두피 열감">
+          <label for="sc8"><span class="icon">✓</span> 두피 열감</label>
+        </div>
+        <div class="card-option checkbox">
+          <input type="checkbox" name="scalpConcerns" id="sc9" value="뾰루지&염증">
+          <label for="sc9"><span class="icon">✓</span> 뾰루지 &amp; 염증</label>
+        </div>
+        <div class="card-option checkbox">
+          <input type="checkbox" name="scalpConcerns" id="sc10" value="두피 통증">
+          <label for="sc10"><span class="icon">✓</span> 두피 통증 / 따가움</label>
+        </div>
+        <div class="card-option checkbox" style="grid-column: 1 / -1;">
+          <input type="checkbox" name="scalpConcerns" id="sc11" value="고민 없음">
+          <label for="sc11"><span class="icon">✓</span> 두피 고민 없음</label>
+        </div>
+      </div>
+      <div class="error-msg" id="err-scalpConcerns">두피 고민을 하나 이상 선택해주세요.</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-label">펌 / 염색 횟수 &amp; 주기</div>
+      <input type="text" class="text-input" id="permDyeHistory" placeholder="예) 염색 2개월에 한 번, 파마 1년에 한 번" />
+    </div>
+
+    <div class="q-block">
+      <div class="q-label"><span class="req">*</span> 샴푸 세정 횟수</div>
+      <div class="card-options" id="shampooFrequency">
+        <div class="card-option">
+          <input type="radio" name="shampooFrequency" id="sf1" value="매일 아침·저녁 2회">
+          <label for="sf1"><span class="icon">✓</span> 매일 아침, 저녁 한 번씩</label>
+        </div>
+        <div class="card-option">
+          <input type="radio" name="shampooFrequency" id="sf2" value="매일 아침 1회">
+          <label for="sf2"><span class="icon">✓</span> 매일 아침 한 번</label>
+        </div>
+        <div class="card-option">
+          <input type="radio" name="shampooFrequency" id="sf3" value="매일 저녁 1회">
+          <label for="sf3"><span class="icon">✓</span> 매일 저녁 한 번</label>
+        </div>
+        <div class="card-option">
+          <input type="radio" name="shampooFrequency" id="sf4" value="이틀에 한 번">
+          <label for="sf4"><span class="icon">✓</span> 이틀에 한 번</label>
+        </div>
+        <div class="card-option">
+          <input type="radio" name="shampooFrequency" id="sf5" value="기타">
+          <label for="sf5"><span class="icon">✓</span> 기타</label>
+        </div>
+      </div>
+      <div class="error-msg" id="err-shampooFrequency">샴푸 횟수를 선택해주세요.</div>
+    </div>
+
+    <div class="btn-wrap">
+      <button class="btn btn-prev" onclick="prevStep(4)">← 이전</button>
+      <button class="btn btn-next" onclick="nextStep(4)">다음 →</button>
+    </div>
+  </div>
+
+  <!-- ─────────── STEP 5: 원하는 서비스 & 동의 ─────────── -->
+  <div class="step" id="step5">
+    <div class="step-title">서비스 선택 &amp; 동의</div>
+    <div class="step-desc">원하시는 관리 서비스와 촬영 동의 여부를 선택해주세요.</div>
+
+    <div class="q-block">
+      <div class="q-label"><span class="req">*</span> 원하는 관리 항목 <span class="q-hint">복수 선택 가능</span></div>
+      <div class="card-options" id="desiredServices">
+        <div class="card-option checkbox">
+          <input type="checkbox" name="desiredServices" id="ds1" value="힐링 브레인 디톡스 헤드스파">
+          <label for="ds1"><span class="icon">✓</span> 힐링 브레인 디톡스 헤드스파</label>
+        </div>
+        <div class="card-option checkbox">
+          <input type="checkbox" name="desiredServices" id="ds2" value="탈모 관리">
+          <label for="ds2"><span class="icon">✓</span> 탈모 관리</label>
+        </div>
+        <div class="card-option checkbox">
+          <input type="checkbox" name="desiredServices" id="ds3" value="두피 스케일링">
+          <label for="ds3"><span class="icon">✓</span> 두피 스케일링</label>
+        </div>
+        <div class="card-option checkbox">
+          <input type="checkbox" name="desiredServices" id="ds4" value="문제성 두피 케어">
+          <label for="ds4"><span class="icon">✓</span> 문제성 두피 케어 (염증/민감/과다피지)</label>
+        </div>
+      </div>
+      <div class="error-msg" id="err-desiredServices">관리 항목을 선택해주세요.</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-label"><span class="req">*</span> 기념 영상 촬영 동의</div>
+      <div class="step-desc" style="margin-bottom:14px; font-size:13px;">
+        헤드스파(워터테라피) 받으시는 모습을 고객님 휴대폰으로 동영상 &amp; 사진 촬영을 원하시는 경우 '네'를 선택해주세요.
+      </div>
+      <div class="card-options" id="videoConsent">
+        <div class="card-option">
+          <input type="radio" name="videoConsent" id="vc1" value="동의">
+          <label for="vc1"><span class="icon">✓</span> 네, 촬영 원합니다.</label>
+        </div>
+        <div class="card-option">
+          <input type="radio" name="videoConsent" id="vc2" value="비동의">
+          <label for="vc2"><span class="icon">✓</span> 아니오, 촬영 원하지 않습니다.</label>
+        </div>
+      </div>
+      <div class="error-msg" id="err-videoConsent">동의 여부를 선택해주세요.</div>
+    </div>
+
+    <div class="btn-wrap">
+      <button class="btn btn-prev" onclick="prevStep(5)">← 이전</button>
+      <button class="btn btn-submit" onclick="submitForm()">✓ 설문 제출하기</button>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+
+<!-- 완료 화면 -->
+<div class="wrap">
+  <div class="done-screen" id="doneScreen">
+    <div class="done-icon">✓</div>
+    <div class="done-title">설문이 접수되었습니다!</div>
+    <div class="done-desc">
+      소중한 정보 감사합니다 😊<br />
+      스칼프잇에서 최적의 두피 케어를 준비하겠습니다.<br />
+      예약 당일 편안하게 방문해주세요.
+    </div>
+    <div class="done-info" id="doneInfo"></div>
+  </div>
+</div>
+
+<script>
+  const TOTAL_STEPS = 5;
+  let currentStep = 1;
+
+  function updateProgress() {
+    const pct = Math.round((currentStep / TOTAL_STEPS) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('stepLabel').textContent = `${currentStep}단계 / ${TOTAL_STEPS}단계`;
+    document.getElementById('stepPct').textContent = pct + '%';
+  }
+
+  function showStep(n) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.getElementById('step' + n).classList.add('active');
+    currentStep = n;
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function getRadio(name) {
+    const el = document.querySelector(`input[name="${name}"]:checked`);
+    return el ? el.value : null;
+  }
+
+  function getCheckboxes(name) {
+    return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(e => e.value);
+  }
+
+  function showErr(id, show) {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('show', show);
+  }
+
+  function nextStep(from) {
+    let valid = true;
+
+    if (from === 1) {
+      const rt = getRadio('reservationType');
+      const ct = getRadio('consultationType');
+      showErr('err-reservationType', !rt);
+      showErr('err-consultationType', !ct);
+      if (!rt || !ct) valid = false;
+    }
+    if (from === 2) {
+      const name = document.getElementById('name').value.trim();
+      const bd = document.getElementById('birthdate').value.trim();
+      const ph = document.getElementById('phone').value.trim();
+      const addr = document.getElementById('address').value.trim();
+      showErr('err-name', !name);
+      showErr('err-birthdate', !bd);
+      showErr('err-phone', !ph);
+      showErr('err-address', !addr);
+      if (!name || !bd || !ph || !addr) valid = false;
+    }
+    if (from === 3) {
+      const vs = getRadio('visitSource');
+      showErr('err-visitSource', !vs);
+      if (!vs) valid = false;
+    }
+    if (from === 4) {
+      const sc = getCheckboxes('scalpConcerns');
+      const sf = getRadio('shampooFrequency');
+      showErr('err-scalpConcerns', sc.length === 0);
+      showErr('err-shampooFrequency', !sf);
+      if (sc.length === 0 || !sf) valid = false;
+    }
+
+    if (valid) showStep(from + 1);
+  }
+
+  function prevStep(from) {
+    showStep(from - 1);
+  }
+
+  async function submitForm() {
+    // 5단계 검증
+    const ds = getCheckboxes('desiredServices');
+    const vc = getRadio('videoConsent');
+    showErr('err-desiredServices', ds.length === 0);
+    showErr('err-videoConsent', !vc);
+    if (ds.length === 0 || !vc) return;
+
+    const payload = {
+      reservationType: getRadio('reservationType'),
+      consultationType: getRadio('consultationType'),
+      name: document.getElementById('name').value.trim(),
+      birthdate: document.getElementById('birthdate').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      address: document.getElementById('address').value.trim(),
+      treatmentHistory: getCheckboxes('treatmentHistory'),
+      visitSource: getRadio('visitSource'),
+      scalpConcerns: getCheckboxes('scalpConcerns'),
+      permDyeHistory: document.getElementById('permDyeHistory').value.trim(),
+      shampooFrequency: getRadio('shampooFrequency'),
+      desiredServices: ds,
+      videoConsent: vc,
+    };
+
+    const btn = document.querySelector('.btn-submit');
+    btn.disabled = true;
+    btn.textContent = '제출 중...';
+
+    try {
+      const res = await fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      if (data.success) {
+        document.getElementById('formWrap').style.display = 'none';
+        const done = document.getElementById('doneScreen');
+        done.classList.add('show');
+        document.getElementById('doneInfo').innerHTML = `
+          <div class="done-info-row"><span class="key">이름</span><span class="val">${payload.name}</span></div>
+          <div class="done-info-row"><span class="key">연락처</span><span class="val">${payload.phone}</span></div>
+          <div class="done-info-row"><span class="key">예약 유형</span><span class="val">${payload.reservationType}</span></div>
+          <div class="done-info-row"><span class="key">원하는 서비스</span><span class="val">${payload.desiredServices.join(', ')}</span></div>
+        `;
+      } else {
+        alert(data.message || '오류가 발생했습니다. 다시 시도해주세요.');
+        btn.disabled = false;
+        btn.textContent = '✓ 설문 제출하기';
+      }
+    } catch (e) {
+      alert('서버 연결 오류입니다. 잠시 후 다시 시도해주세요.');
+      btn.disabled = false;
+      btn.textContent = '✓ 설문 제출하기';
+    }
+  }
+
+  updateProgress();
+</script>
+</body>
+</html>
