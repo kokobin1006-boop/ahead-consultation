@@ -85,27 +85,6 @@ async function deleteSubmission(brand, id) {
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// ── SCALPIT API ──
-app.post('/api/submit', async (req, res) => {
-  const body = req.body;
-  if (!body.name || !body.phone) return res.status(400).json({ success: false, message: '필수 항목을 입력해주세요.' });
-  const entry = { id: Date.now(), submittedAt: new Date().toISOString(), ...body };
-  await saveSubmission('scalpit', entry);
-  res.json({ success: true });
-});
-
-app.get('/api/submissions', async (req, res) => {
-  if (req.headers['x-admin-password'] !== ADMIN_PASSWORD)
-    return res.status(401).json({ success: false, message: '비밀번호가 올바르지 않습니다.' });
-  const data = await getSubmissions('scalpit');
-  res.json({ success: true, data, total: data.length });
-});
-
-app.delete('/api/submissions/:id', async (req, res) => {
-  if (req.headers['x-admin-password'] !== ADMIN_PASSWORD) return res.status(401).json({ success: false });
-  await deleteSubmission('scalpit', Number(req.params.id));
-  res.json({ success: true });
-});
 
 // ── aHEAD API ──
 app.post('/api/ahead/submit', async (req, res) => {
