@@ -21,6 +21,7 @@ const fs = require('fs');
 const DATA_DIR = path.join(__dirname, 'data');
 const DATA_FILE = path.join(DATA_DIR, 'submissions.json');
 const AHEAD_DATA_FILE = path.join(DATA_DIR, 'ahead-submissions.json');
+const REVIEW_DATA_FILE = path.join(DATA_DIR, 'ahead-reviews.json');
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 
 function readJson(file) {
@@ -38,6 +39,13 @@ async function initDB() {
     CREATE TABLE IF NOT EXISTS submissions (
       id BIGINT PRIMARY KEY,
       brand TEXT NOT NULL,
+      submitted_at TIMESTAMPTZ DEFAULT NOW(),
+      data JSONB NOT NULL
+    );
+  `);
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS reviews (
+      id BIGINT PRIMARY KEY,
       submitted_at TIMESTAMPTZ DEFAULT NOW(),
       data JSONB NOT NULL
     );
@@ -86,6 +94,29 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+
+// ── Scálpit API ──
+app.post('/api/scalpit/submit', async (req, res) => {
+  const body = req.body;
+  if (!body.name || !body.phone) return res.status(400).json({ success: false, message: '필수 항목을 입력해주세요.' });
+  const entry = { id: Date.now(), submittedAt: new Date().toISOString(), ...body };
+  await saveSubmission('scalpit', entry);
+  res.json({ success: true });
+});
+
+app.get('/api/scalpit/submissions', async (req, res) => {
+  if (req.headers['x-admin-password'] !== ADMIN_PASSWORD)
+    return res.status(401).json({ success: false, message: '비밀번호가 올바르지 않습니다.' });
+  const data = await getSubmissions('scalpit');
+  res.json({ success: true, data, total: data.length });
+});
+
+app.delete('/api/scalpit/submissions/:id', async (req, res) => {
+  if (req.headers['x-admin-password'] !== ADMIN_PASSWORD) return res.status(401).json({ success: false });
+  await deleteSubmission('scalpit', Number(req.params.id));
+  res.json({ success: true });
+});
+
 // ── aHEAD API ──
 app.post('/api/ahead/submit', async (req, res) => {
   const body = req.body;
@@ -105,6 +136,46 @@ app.get('/api/ahead/submissions', async (req, res) => {
 app.delete('/api/ahead/submissions/:id', async (req, res) => {
   if (req.headers['x-admin-password'] !== AHEAD_ADMIN_PASSWORD) return res.status(401).json({ success: false });
   await deleteSubmission('ahead', Number(req.params.id));
+  res.json({ success: true });
+});
+
+// ── aHEAD Review API ──
+app.post('/api/ahead/review', async (req, res) => {
+  const body = req.body;
+  if (!body.overallRating) return res.status(400).json({ success: false, message: '전체 만족도를 선택해주세요.' });
+  const entry = { id: Date.now(), submittedAt: new Date().toISOString(), ...body };
+  if (pool) {
+    const { id, submittedAt, ...data } = entry;
+    await pool.query('INSERT INTO reviews (id, submitted_at, data) VALUES ($1, $2, $3)', [id, submittedAt, JSON.stringify(data)]);
+  } else {
+    const list = readJson(REVIEW_DATA_FILE);
+    list.push(entry);
+    writeJson(REVIEW_DATA_FILE, list);
+  }
+  res.json({ success: true });
+});
+
+app.get('/api/ahead/reviews', async (req, res) => {
+  if (req.headers['x-admin-password'] !== AHEAD_ADMIN_PASSWORD)
+    return res.status(401).json({ success: false, message: '비밀번호가 올바르지 않습니다.' });
+  let data;
+  if (pool) {
+    const result = await pool.query('SELECT id, submitted_at as "submittedAt", data FROM reviews ORDER BY id ASC');
+    data = result.rows.map(r => ({ id: r.id, submittedAt: r.submittedAt, ...r.data }));
+  } else {
+    data = readJson(REVIEW_DATA_FILE);
+  }
+  res.json({ success: true, data, total: data.length });
+});
+
+app.delete('/api/ahead/reviews/:id', async (req, res) => {
+  if (req.headers['x-admin-password'] !== AHEAD_ADMIN_PASSWORD) return res.status(401).json({ success: false });
+  if (pool) {
+    await pool.query('DELETE FROM reviews WHERE id=$1', [Number(req.params.id)]);
+  } else {
+    const list = readJson(REVIEW_DATA_FILE).filter(r => r.id !== Number(req.params.id));
+    writeJson(REVIEW_DATA_FILE, list);
+  }
   res.json({ success: true });
 });
 
