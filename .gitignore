@@ -4,5 +4,4 @@ data/ahead-submissions.json
 .env
 *.log
 .DS_Store
-public/index.html
 public/admin.html
