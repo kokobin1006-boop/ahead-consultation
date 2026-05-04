@@ -36,7 +36,8 @@
 
     /* ── 언어 선택 화면 ── */
     .lang-screen {
-      position: fixed; inset: 0;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      width: 100%; height: 100%;
       background: #3A1018;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
@@ -333,7 +334,7 @@
 </head>
 <body>
 
-<!-- ==================== 언어 선택 화면 ====================
+<!-- 언어 선택 화면 -->
 <div class="lang-screen" id="langScreen">
   <div class="lang-brand">
     <img src="scalpit-logo.png" alt="Scálpit" class="lang-brand-logo" />
@@ -342,22 +343,10 @@
   </div>
   <div class="lang-prompt">Select your language</div>
   <div class="lang-grid">
-    <button class="lang-btn" onclick="selectLang('ko')">
-      <span class="lang-code">KO</span>
-      <span class="lang-native">한국어</span>
-    </button>
-    <button class="lang-btn" onclick="selectLang('en')">
-      <span class="lang-code">EN</span>
-      <span class="lang-native">English</span>
-    </button>
-    <button class="lang-btn" onclick="selectLang('zh')">
-      <span class="lang-code">ZH</span>
-      <span class="lang-native">中文</span>
-    </button>
-    <button class="lang-btn" onclick="selectLang('ja')">
-      <span class="lang-code">JA</span>
-      <span class="lang-native">日本語</span>
-    </button>
+    <button class="lang-btn" onclick="selectLang('ko')"><span class="lang-code">KO</span><span class="lang-native">한국어</span></button>
+    <button class="lang-btn" onclick="selectLang('en')"><span class="lang-code">EN</span><span class="lang-native">English</span></button>
+    <button class="lang-btn" onclick="selectLang('zh')"><span class="lang-code">ZH</span><span class="lang-native">中文</span></button>
+    <button class="lang-btn" onclick="selectLang('ja')"><span class="lang-code">JA</span><span class="lang-native">日本語</span></button>
   </div>
 </div>
 
@@ -398,13 +387,14 @@
     </div>
   </div>
 
-  <!-- STEP 1 -->
+  <!-- STEP 1: 예약 정보 -->
   <div class="step active" id="step1">
     <div class="step-eyebrow" id="s1Eyebrow"></div>
     <div class="step-title" id="s1Title"></div>
     <div class="step-desc" id="s1Desc"></div>
     <div class="step-divider"></div>
 
+    <!-- Q1: 예약 인원 -->
     <div class="q-block">
       <div class="q-label"><span class="req">*</span> <span id="qRes"></span></div>
       <div class="card-options">
@@ -416,12 +406,24 @@
           <input type="radio" name="reservationType" id="r2" value="">
           <label for="r2"><span class="dot"></span> <span id="rLabel2"></span></label>
         </div>
-        <div class="card-option">
-          <input type="radio" name="reservationType" id="r3" value="">
-          <label for="r3"><span class="dot"></span> <span id="rLabel3"></span></label>
-        </div>
       </div>
       <div class="error-msg" id="err-reservationType"></div>
+    </div>
+
+    <!-- Q2: 상담 유형 -->
+    <div class="q-block">
+      <div class="q-label"><span class="req">*</span> <span id="qCons"></span></div>
+      <div class="card-options">
+        <div class="card-option">
+          <input type="radio" name="consultationType" id="c1" value="">
+          <label for="c1"><span class="dot"></span> <span id="cLabel1"></span></label>
+        </div>
+        <div class="card-option">
+          <input type="radio" name="consultationType" id="c2" value="">
+          <label for="c2"><span class="dot"></span> <span id="cLabel2"></span></label>
+        </div>
+      </div>
+      <div class="error-msg" id="err-consultationType"></div>
     </div>
 
     <div class="btn-wrap">
@@ -429,28 +431,26 @@
     </div>
   </div>
 
-  <!-- STEP 2 -->
+  <!-- STEP 2: 기본 정보 -->
   <div class="step" id="step2">
     <div class="step-eyebrow" id="s2Eyebrow"></div>
     <div class="step-title" id="s2Title"></div>
     <div class="step-desc" id="s2Desc"></div>
     <div class="step-divider"></div>
 
+    <!-- Q3: 이름 / 생년월일 -->
     <div class="q-block">
-      <div class="q-label"><span class="req">*</span> <span id="qName"></span></div>
-      <input type="text" class="text-input" id="name" />
-      <div class="error-msg" id="err-name"></div>
+      <div class="q-label"><span class="req">*</span> <span id="qNameBirth"></span></div>
+      <input type="text" class="text-input" id="nameBirth" />
+      <div class="error-msg" id="err-nameBirth"></div>
     </div>
-    <div class="q-block">
-      <div class="q-label"><span class="req">*</span> <span id="qBirth"></span></div>
-      <input type="text" class="text-input" id="birthdate" maxlength="8" />
-      <div class="error-msg" id="err-birthdate"></div>
-    </div>
+    <!-- Q4: 연락처 -->
     <div class="q-block">
       <div class="q-label"><span class="req">*</span> <span id="qPhone"></span></div>
       <input type="tel" class="text-input" id="phone" />
       <div class="error-msg" id="err-phone"></div>
     </div>
+    <!-- Q5: 주소 -->
     <div class="q-block">
       <div class="q-label"><span class="req">*</span> <span id="qAddr"></span> <span class="q-hint" id="qAddrHint"></span></div>
       <input type="text" class="text-input" id="address" />
@@ -463,13 +463,14 @@
     </div>
   </div>
 
-  <!-- STEP 3 -->
+  <!-- STEP 3: 시술 이력 & 방문 경로 -->
   <div class="step" id="step3">
     <div class="step-eyebrow" id="s3Eyebrow"></div>
     <div class="step-title" id="s3Title"></div>
     <div class="step-desc" id="s3Desc"></div>
     <div class="step-divider"></div>
 
+    <!-- Q6: 관리 경험 -->
     <div class="q-block">
       <div class="q-label"><span id="qTreat"></span> <span class="q-hint" id="treatHint"></span></div>
       <div class="card-options">
@@ -479,10 +480,10 @@
         <div class="card-option checkbox"><input type="checkbox" name="treatmentHistory" id="th4" value=""><label for="th4"><span class="dot"></span> <span id="thLabel4"></span></label></div>
         <div class="card-option checkbox"><input type="checkbox" name="treatmentHistory" id="th5" value=""><label for="th5"><span class="dot"></span> <span id="thLabel5"></span></label></div>
         <div class="card-option checkbox"><input type="checkbox" name="treatmentHistory" id="th6" value=""><label for="th6"><span class="dot"></span> <span id="thLabel6"></span></label></div>
-        <div class="card-option checkbox"><input type="checkbox" name="treatmentHistory" id="th7" value=""><label for="th7"><span class="dot"></span> <span id="thLabel7"></span></label></div>
       </div>
     </div>
 
+    <!-- Q7: 방문 경로 -->
     <div class="q-block">
       <div class="q-label"><span class="req">*</span> <span id="qSrc"></span></div>
       <div class="card-options">
@@ -492,7 +493,6 @@
         <div class="card-option"><input type="radio" name="visitSource" id="vs4" value=""><label for="vs4"><span class="dot"></span> <span id="vsLabel4"></span></label></div>
         <div class="card-option"><input type="radio" name="visitSource" id="vs5" value=""><label for="vs5"><span class="dot"></span> <span id="vsLabel5"></span></label></div>
         <div class="card-option"><input type="radio" name="visitSource" id="vs6" value=""><label for="vs6"><span class="dot"></span> <span id="vsLabel6"></span></label></div>
-        <div class="card-option"><input type="radio" name="visitSource" id="vs7" value=""><label for="vs7"><span class="dot"></span> <span id="vsLabel7"></span></label></div>
       </div>
       <div class="error-msg" id="err-visitSource"></div>
     </div>
@@ -503,16 +503,17 @@
     </div>
   </div>
 
-  <!-- STEP 4 -->
+  <!-- STEP 4: 두피 고민 & 생활 습관 -->
   <div class="step" id="step4">
     <div class="step-eyebrow" id="s4Eyebrow"></div>
     <div class="step-title" id="s4Title"></div>
     <div class="step-desc" id="s4Desc"></div>
     <div class="step-divider"></div>
 
+    <!-- Q8: 두피 고민 -->
     <div class="q-block">
       <div class="q-label"><span class="req">*</span> <span id="qScalp"></span> <span class="q-hint" id="scalpHint"></span></div>
-      <div class="grid-options" id="scalpConcerns">
+      <div class="grid-options">
         <div class="card-option checkbox"><input type="checkbox" name="scalpConcerns" id="sc1" value=""><label for="sc1"><span class="dot"></span> <span id="scLabel1"></span></label></div>
         <div class="card-option checkbox"><input type="checkbox" name="scalpConcerns" id="sc2" value=""><label for="sc2"><span class="dot"></span> <span id="scLabel2"></span></label></div>
         <div class="card-option checkbox"><input type="checkbox" name="scalpConcerns" id="sc3" value=""><label for="sc3"><span class="dot"></span> <span id="scLabel3"></span></label></div>
@@ -528,6 +529,13 @@
       <div class="error-msg" id="err-scalpConcerns"></div>
     </div>
 
+    <!-- Q9: 펌/염색 주기 -->
+    <div class="q-block">
+      <div class="q-label"><span id="qPerm"></span></div>
+      <input type="text" class="text-input" id="permFrequency" />
+    </div>
+
+    <!-- Q10: 샴푸 횟수 -->
     <div class="q-block">
       <div class="q-label"><span class="req">*</span> <span id="qShampoo"></span></div>
       <div class="card-options">
@@ -540,74 +548,85 @@
       <div class="error-msg" id="err-shampooFrequency"></div>
     </div>
 
+    <!-- Q11: 탈모 유전력 -->
+    <div class="q-block">
+      <div class="q-label"><span class="req">*</span> <span id="qGenetic"></span></div>
+      <div class="card-options">
+        <div class="card-option"><input type="radio" name="hairLossGenetic" id="hg1" value=""><label for="hg1"><span class="dot"></span> <span id="hgLabel1"></span></label></div>
+        <div class="card-option"><input type="radio" name="hairLossGenetic" id="hg2" value=""><label for="hg2"><span class="dot"></span> <span id="hgLabel2"></span></label></div>
+      </div>
+      <div class="error-msg" id="err-hairLossGenetic"></div>
+    </div>
+
     <div class="btn-wrap">
       <button class="btn btn-prev" id="btnPrev4" onclick="prevStep(4)"></button>
       <button class="btn btn-next" id="btnNext4" onclick="nextStep(4)"></button>
     </div>
   </div>
 
-  <!-- STEP 5 -->
+  <!-- STEP 5: 서비스 선택 & 동의 -->
   <div class="step" id="step5">
     <div class="step-eyebrow" id="s5Eyebrow"></div>
     <div class="step-title" id="s5Title"></div>
     <div class="step-desc" id="s5Desc"></div>
     <div class="step-divider"></div>
 
+    <!-- Q12: 관심 서비스 -->
     <div class="q-block">
       <div class="q-label"><span class="req">*</span> <span id="qServ"></span> <span class="q-hint" id="servHint"></span></div>
       <div class="card-options">
         <div class="card-option checkbox service-card">
-          <input type="checkbox" name="desiredServices" id="ds1" value="SCALP CARE 60분">
+          <input type="checkbox" name="desiredServices" id="ds1" value="헤드스파">
           <label for="ds1">
             <span class="dot"></span>
-            <div class="service-en">SCALP CARE | 60min</div>
+            <div class="service-en">HEAD SPA</div>
             <div class="service-name" id="dsName1"></div>
             <div class="service-desc" id="dsDesc1"></div>
           </label>
         </div>
         <div class="card-option checkbox service-card">
-          <input type="checkbox" name="desiredServices" id="ds2" value="SCALP PREMIUM 90분">
+          <input type="checkbox" name="desiredServices" id="ds2" value="탈모관리">
           <label for="ds2">
             <span class="dot"></span>
-            <div class="service-en">SCALP PREMIUM | 90min</div>
+            <div class="service-en">HAIR LOSS CARE</div>
             <div class="service-name" id="dsName2"></div>
-            <div class="service-sub-tag" id="dsSub2"></div>
             <div class="service-desc" id="dsDesc2"></div>
           </label>
         </div>
         <div class="card-option checkbox service-card">
-          <input type="checkbox" name="desiredServices" id="ds3" value="HAIR REVIVAL 80분">
+          <input type="checkbox" name="desiredServices" id="ds3" value="두피스케일링">
           <label for="ds3">
             <span class="dot"></span>
-            <div class="service-en">HAIR REVIVAL | 80min</div>
+            <div class="service-en">SCALP SCALING</div>
             <div class="service-name" id="dsName3"></div>
-            <div class="service-sub-tag" id="dsSub3"></div>
             <div class="service-desc" id="dsDesc3"></div>
           </label>
         </div>
         <div class="card-option checkbox service-card">
-          <input type="checkbox" name="desiredServices" id="ds4" value="TOTAL PREMIUM 120분">
+          <input type="checkbox" name="desiredServices" id="ds4" value="문제성두피케어">
           <label for="ds4">
             <span class="dot"></span>
-            <div class="service-en">TOTAL PREMIUM | 120min</div>
+            <div class="service-en">PROBLEM SCALP</div>
             <div class="service-name" id="dsName4"></div>
-            <div class="service-sub-tag" id="dsSub4"></div>
             <div class="service-desc" id="dsDesc4"></div>
-          </label>
-        </div>
-        <div class="card-option checkbox service-card">
-          <input type="checkbox" name="desiredServices" id="ds5" value="">
-          <label for="ds5">
-            <span class="dot"></span>
-            <div class="service-name" id="dsName5"></div>
-            <div class="service-desc" id="dsDesc5"></div>
           </label>
         </div>
       </div>
       <div class="error-msg" id="err-desiredServices"></div>
     </div>
 
-    <!-- 개인정보 동의 -->
+    <!-- Q13: 촬영 동의 -->
+    <div class="q-block">
+      <div class="q-label"><span class="req">*</span> <span id="qVideo"></span></div>
+      <div class="step-desc" id="videoDesc" style="margin-bottom:14px;font-size:13px;"></div>
+      <div class="card-options">
+        <div class="card-option"><input type="radio" name="videoConsent" id="vc1" value="동의"><label for="vc1"><span class="dot"></span> <span id="vcLabel1"></span></label></div>
+        <div class="card-option"><input type="radio" name="videoConsent" id="vc2" value="비동의"><label for="vc2"><span class="dot"></span> <span id="vcLabel2"></span></label></div>
+      </div>
+      <div class="error-msg" id="err-videoConsent"></div>
+    </div>
+
+    <!-- Q14: 개인정보 동의 -->
     <div class="privacy-box">
       <div class="privacy-item required-item">
         <label class="privacy-label">
@@ -657,51 +676,52 @@
 <script>
 const T = {
   ko: {
-    notice_title: 'NOTICE',
-    notice_body: '설문 작성 후 스칼프잇 상담팀에서 개별 연락드립니다.\n방문 전 반드시 작성해주시기 바랍니다.',
-    step_of: (c,t) => `STEP ${c} / ${t}`,
-    s1_eyebrow:'STEP 1 OF 5',
-    s1_title:'방문 목적', s1_desc:'스칼프잇에 오시게 된 이유를 알려주세요.',
-    q_res:'방문 유형',
-    r1:'처음 방문이에요', r2:'재방문이에요 (이전에 이용한 경험 있음)', r3:'이벤트 / 프로모션으로 예약했어요',
-    err_res:'방문 유형을 선택해주세요.',
-    s2_eyebrow:'STEP 2 OF 5',
-    s2_title:'기본 정보', s2_desc:'고객님의 기본 정보를 입력해주세요.',
-    q_name:'성함', ph_name:'이름을 입력해주세요',
-    q_birth:'생년월일', ph_birth:'예) 19950315',
+    notice_title:'NOTICE',
+    notice_body:'2인 이상 예약하신 경우, 일행분께도 해당 링크를 공유하여 모두 작성 부탁드립니다.\n설문지 미작성 시 상담이 제한될 수 있습니다.',
+    step_of:(c,t)=>`STEP ${c} / ${t}`,
+    s1_eyebrow:'STEP 1 OF 5', s1_title:'예약 정보', s1_desc:'예약 인원과 상담 방식을 선택해주세요.',
+    q_res:'예약 인원',
+    r1:'2인 이상 예약입니다. (일행 링크 공유 완료!)', r2:'1인 예약입니다.',
+    err_res:'예약 인원을 선택해주세요.',
+    q_cons:'상담 유형',
+    c1:'힐링 위주, 간단한 상담만 원해요.', c2:'정밀 진단·상담 원해요.',
+    err_cons:'상담 유형을 선택해주세요.',
+    s2_eyebrow:'STEP 2 OF 5', s2_title:'기본 정보', s2_desc:'고객님의 기본 정보를 입력해주세요.',
+    q_name_birth:'이름 / 생년월일', ph_name_birth:'예) 홍길동 / 1995.03.15',
     q_phone:'연락처', ph_phone:'예) 010-1234-5678',
-    q_addr:'주소', q_addr_hint:'(시/구 단위)', ph_addr:'예) 서울 강남구',
-    err_name:'성함을 입력해주세요.', err_birth:'생년월일을 입력해주세요.',
-    err_phone:'연락처를 입력해주세요.', err_addr:'주소를 입력해주세요.',
-    s3_eyebrow:'STEP 3 OF 5',
-    s3_title:'시술 이력 & 방문 경로', s3_desc:'이전 시술 경험과 스칼프잇을 알게 된 경로를 알려주세요.',
+    q_addr:'주소', q_addr_hint:'(간단히 동까지만 기재)', ph_addr:'예) 서울 강남구 신사동',
+    err_name:'이름/생년월일을 입력해주세요.', err_phone:'연락처를 입력해주세요.', err_addr:'주소를 입력해주세요.',
+    s3_eyebrow:'STEP 3 OF 5', s3_title:'시술 이력 & 방문 경로', s3_desc:'이전 시술 경험과 저희를 알게 된 경로를 알려주세요.',
     q_treat:'관리(치료) 경험', treat_hint:'복수 선택 가능',
     th1:'병원 치료', th2:'전문 두피 관리', th3:'약물 복용',
-    th4:'두피 & 모발 시술 (메조, PRP 등)', th5:'일반 미용실 관리',
-    th6:'홈케어 (두피 샴푸 / 앰플 등)', th7:'없음',
+    th4:'두피 & 모발 시술 (메조, PRP 등)', th5:'일반 미용실 관리', th6:'홈케어 (두피 샴푸 / 앰플 등)',
     q_src:'방문 경로',
-    vs3:'네이버 검색', vs4:'네이버 카페 / 블로그', vs5:'지인 소개', vs6:'간판 / 현수막', vs7:'기타',
+    vs3:'네이버 검색', vs4:'네이버 카페 / 블로그', vs5:'지인 소개', vs6:'간판 / 현수막',
     err_src:'방문 경로를 선택해주세요.',
-    s4_eyebrow:'STEP 4 OF 5',
-    s4_title:'두피 고민 & 생활 습관', s4_desc:'현재 두피 상태와 생활 패턴을 알려주세요.',
+    s4_eyebrow:'STEP 4 OF 5', s4_title:'두피 고민 & 생활 습관', s4_desc:'현재 두피 상태와 생활 패턴을 알려주세요.',
     q_scalp:'주요 두피 고민', scalp_hint:'복수 선택 가능',
     sc1:'탈모', sc2:'가려움', sc3:'건조', sc4:'지성 / 번들거림', sc5:'비듬',
     sc6:'홍반 / 발적', sc7:'악취', sc8:'두피 열감', sc9:'뾰루지 & 염증',
-    sc10:'두피 통증 / 따가움', sc11:'두피 고민 없음',
+    sc10:'두피 통증 / 따가움', sc11:'기타',
     err_scalp:'두피 고민을 하나 이상 선택해주세요.',
+    q_perm:'펌 / 염색 횟수 & 주기', ph_perm:'예) 염색 2개월에 한 번, 파마 1년에 한 번',
     q_shampoo:'샴푸 세정 횟수',
     sf1:'매일 아침, 저녁 한 번씩', sf2:'매일 아침 한 번', sf3:'매일 저녁 한 번',
     sf4:'이틀에 한 번', sf5:'기타',
     err_shampoo:'샴푸 횟수를 선택해주세요.',
-    s5_eyebrow:'STEP 5 OF 5',
-    s5_title:'서비스 선택 & 동의', s5_desc:'원하시는 관리 서비스와 개인정보 동의를 완료해주세요.',
-    q_serv:'원하는 관리 항목', serv_hint:'복수 선택 가능',
-    ds1_name:'두피 기본 케어', ds1_desc:'두피 스캔 진단 후 맞춤형 클렌징과 앰플 케어를 제공합니다. 스칼프잇의 기본이자 핵심 코스입니다.',
-    ds2_name:'두피 프리미엄 케어', ds2_sub:'두피 클렌징 + 앰플 + PEMF', ds2_desc:'프리미엄 두피 클렌징과 맞춤 앰플에 PEMF 저주파 관리를 더해 혈행 개선과 탈모 예방까지 집중 케어합니다.',
-    ds3_name:'모발 리바이벌 케어', ds3_sub:'두피 케어 + 모발 집중 트리트먼트', ds3_desc:'손상되고 가늘어진 모발에 영양을 채우고 모근을 강화하는 두피 & 모발 통합 케어 코스입니다.',
-    ds4_name:'토탈 프리미엄 케어', ds4_sub:'두피 + PEMF + 모발 — 풀코스', ds4_desc:'스칼프잇의 모든 핵심 관리를 통합한 완성형 프리미엄 코스입니다. 두피, 모발, 혈행 케어가 한 번에 이루어집니다.',
-    ds5_name:'상담 후 결정', ds5_desc:'어떤 케어가 필요한지 고민될 때, 전문 상담을 통해 최적의 코스를 안내해드립니다.',
-    err_serv:'관리 항목을 선택해주세요.',
+    q_genetic:'탈모 유전력', hg1:'있음', hg2:'없음',
+    err_genetic:'탈모 유전력을 선택해주세요.',
+    s5_eyebrow:'STEP 5 OF 5', s5_title:'서비스 선택 & 동의', s5_desc:'관심 있는 서비스와 동의 사항을 확인해주세요.',
+    q_serv:'관심 서비스', serv_hint:'복수 선택 가능',
+    ds1_name:'헤드스파', ds1_desc:'두피와 모발에 깊은 이완과 영양을 제공하는 힐링 헤드스파입니다.',
+    ds2_name:'탈모 관리', ds2_desc:'두피 환경을 개선하고 모근을 강화하는 전문 탈모 케어 프로그램입니다.',
+    ds3_name:'두피 스케일링', ds3_desc:'쌓인 피지와 각질을 제거하여 두피를 깨끗하게 정화합니다.',
+    ds4_name:'문제성 두피케어', ds4_desc:'지루성, 민감성, 염증성 두피 등 문제성 두피를 집중 케어합니다.',
+    err_serv:'관심 서비스를 선택해주세요.',
+    q_video:'기념 영상 촬영 동의',
+    video_desc:'헤드스파 받으시는 모습을 고객님 휴대폰으로 동영상 & 사진 촬영을 원하시는 경우 \'네\'를 선택해주세요.',
+    vc1:'네, 촬영 원합니다.', vc2:'아니오, 촬영 원하지 않습니다.',
+    err_video:'동의 여부를 선택해주세요.',
     privacy_req:'개인정보 수집·이용에 동의합니다',
     privacy_req_detail:'수집 항목: 성명, 생년월일, 연락처, 주소, 두피 상태 정보 | 수집 목적: 두피케어 상담 및 예약 관리 | 보유 기간: 서비스 제공 완료 후 1년',
     privacy_link:'개인정보처리방침 전문 보기 →',
@@ -711,59 +731,60 @@ const T = {
     btn_next:'NEXT →', btn_back:'← BACK', btn_submit:'SUBMIT →', btn_ing:'제출 중...',
     done_title:'설문이 접수되었습니다',
     done_desc:'소중한 정보 감사합니다.\nScálpit에서 최적의 두피 케어를 준비하겠습니다.\n예약 당일 편안하게 방문해주세요.',
-    done_name:'이름', done_phone:'연락처', done_res:'방문 유형', done_serv:'원하는 서비스',
+    done_name:'이름/생년월일', done_phone:'연락처', done_res:'예약 유형', done_serv:'관심 서비스',
     err_server:'오류가 발생했습니다. 다시 시도해주세요.',
     err_network:'서버 연결 오류입니다. 잠시 후 다시 시도해주세요.',
     lang_switch:'언어 변경',
   },
   en: {
     notice_title:'NOTICE',
-    notice_body:'Our consultation team will contact you individually after you complete the form.\nPlease fill this out before your visit.',
+    notice_body:"If you reserved for 2 or more people, please share this link with your companions so everyone can complete the form.\nConsultation may be limited if this form is not submitted.",
     step_of:(c,t)=>`STEP ${c} / ${t}`,
-    s1_eyebrow:'STEP 1 OF 5',
-    s1_title:'Visit Purpose', s1_desc:'Please let us know the reason for your visit.',
-    q_res:'Visit Type',
-    r1:'First visit', r2:'Return visit (I have visited before)', r3:'Event / Promotion booking',
-    err_res:'Please select your visit type.',
-    s2_eyebrow:'STEP 2 OF 5',
-    s2_title:'Basic Info', s2_desc:'Please enter your basic information.',
-    q_name:'Full Name', ph_name:'Enter your name',
-    q_birth:'Date of Birth', ph_birth:'e.g. 19950315',
+    s1_eyebrow:'STEP 1 OF 5', s1_title:'Reservation', s1_desc:'Please select the number of guests and consultation type.',
+    q_res:'Number of Guests',
+    r1:'2 or more people (link shared with companions!)', r2:'1 person.',
+    err_res:'Please select the number of guests.',
+    q_cons:'Consultation Type',
+    c1:'Relaxation-focused, light consultation only.', c2:'Detailed diagnosis & consultation.',
+    err_cons:'Please select a consultation type.',
+    s2_eyebrow:'STEP 2 OF 5', s2_title:'Basic Info', s2_desc:'Please enter your basic information.',
+    q_name_birth:'Name / Date of Birth', ph_name_birth:'e.g. Jane Doe / 1995.03.15',
     q_phone:'Phone Number', ph_phone:'e.g. 010-1234-5678',
-    q_addr:'Address', q_addr_hint:'(City / District)', ph_addr:'e.g. Gangnam, Seoul',
-    err_name:'Please enter your name.', err_birth:'Please enter your date of birth.',
-    err_phone:'Please enter your phone number.', err_addr:'Please enter your address.',
-    s3_eyebrow:'STEP 3 OF 5',
-    s3_title:'History & Source', s3_desc:'Please share your previous treatment experience and how you found us.',
+    q_addr:'Address', q_addr_hint:'(Neighborhood level)', ph_addr:'e.g. Sinsa-dong, Gangnam-gu, Seoul',
+    err_name:'Please enter your name and date of birth.', err_phone:'Please enter your phone number.', err_addr:'Please enter your address.',
+    s3_eyebrow:'STEP 3 OF 5', s3_title:'History & Source', s3_desc:'Please share your previous treatment experience and how you found us.',
     q_treat:'Treatment Experience', treat_hint:'Multiple selections allowed',
     th1:'Hospital treatment', th2:'Professional scalp care', th3:'Medication',
-    th4:'Scalp & hair procedures (Meso, PRP, etc.)', th5:'General salon care',
-    th6:'Home care (scalp shampoo / ampoule, etc.)', th7:'None',
+    th4:'Scalp & hair procedures (Meso, PRP, etc.)', th5:'General salon care', th6:'Home care (scalp shampoo / ampoule, etc.)',
     q_src:'How did you find us?',
-    vs3:'Naver Search', vs4:'Naver Cafe / Blog', vs5:'Referral from friend', vs6:'Signage / Banner', vs7:'Other',
+    vs3:'Naver Search', vs4:'Naver Cafe / Blog', vs5:'Referral from friend', vs6:'Signage / Banner',
     err_src:'Please select how you found us.',
-    s4_eyebrow:'STEP 4 OF 5',
-    s4_title:'Scalp Concerns', s4_desc:'Please tell us about your current scalp condition and lifestyle.',
+    s4_eyebrow:'STEP 4 OF 5', s4_title:'Scalp Concerns', s4_desc:'Please tell us about your current scalp condition and lifestyle.',
     q_scalp:'Main Scalp Concerns', scalp_hint:'Multiple selections allowed',
     sc1:'Hair loss', sc2:'Itchiness', sc3:'Dryness', sc4:'Oily scalp', sc5:'Dandruff',
     sc6:'Redness / Rash', sc7:'Odor', sc8:'Scalp heat', sc9:'Pimples & inflammation',
-    sc10:'Scalp pain / sensitivity', sc11:'No scalp concerns',
+    sc10:'Scalp pain / sensitivity', sc11:'Other',
     err_scalp:'Please select at least one concern.',
+    q_perm:'Perm / Coloring Frequency', ph_perm:'e.g. Color every 2 months, perm once a year',
     q_shampoo:'Shampoo Frequency',
     sf1:'Twice daily (morning & evening)', sf2:'Once daily (morning)', sf3:'Once daily (evening)',
     sf4:'Every other day', sf5:'Other',
     err_shampoo:'Please select your shampoo frequency.',
-    s5_eyebrow:'STEP 5 OF 5',
-    s5_title:'Service & Consent', s5_desc:'Please select your desired service and complete the privacy consent.',
-    q_serv:'Desired Service', serv_hint:'Multiple selections allowed',
-    ds1_name:'Scalp Basic Care', ds1_desc:'After a scalp scan diagnosis, receive customized cleansing and ampoule care. The essential core course at Scálpit.',
-    ds2_name:'Scalp Premium Care', ds2_sub:'Cleansing + Ampoule + PEMF', ds2_desc:'Premium scalp cleansing with customized ampoule plus PEMF low-frequency treatment for circulation improvement and hair loss prevention.',
-    ds3_name:'Hair Revival Care', ds3_sub:'Scalp Care + Intensive Hair Treatment', ds3_desc:'Nourish damaged and thinning hair while strengthening follicles. A comprehensive scalp & hair integrated care course.',
-    ds4_name:'Total Premium Care', ds4_sub:'Scalp + PEMF + Hair — Full Course', ds4_desc:"Scálpit's most comprehensive premium course integrating all core treatments. Scalp, hair, and circulation care in one complete session.",
-    ds5_name:'Decide after consultation', ds5_desc:"Not sure what care you need? Our specialists will guide you to the perfect course through a thorough consultation.",
+    q_genetic:'Hair Loss Genetics', hg1:'Yes', hg2:'No',
+    err_genetic:'Please select your hair loss genetics.',
+    s5_eyebrow:'STEP 5 OF 5', s5_title:'Service & Consent', s5_desc:'Please select your service interests and complete the consent.',
+    q_serv:'Service Interest', serv_hint:'Multiple selections allowed',
+    ds1_name:'Head Spa', ds1_desc:'A healing head spa providing deep relaxation and nourishment for scalp and hair.',
+    ds2_name:'Hair Loss Care', ds2_desc:'A professional hair loss care program that improves scalp environment and strengthens follicles.',
+    ds3_name:'Scalp Scaling', ds3_desc:'Thoroughly cleanses accumulated sebum and dead skin to purify the scalp.',
+    ds4_name:'Problem Scalp Care', ds4_desc:'Intensive care for seborrheic, sensitive, or inflammatory scalp conditions.',
     err_serv:'Please select at least one service.',
+    q_video:'Video Recording Consent',
+    video_desc:"If you'd like us to record your head spa session on your phone, please select 'Yes'.",
+    vc1:"Yes, I'd like to be recorded.", vc2:"No, I don't want to be recorded.",
+    err_video:'Please select your preference.',
     privacy_req:'I agree to the collection and use of personal information',
-    privacy_req_detail:'Items: Name, DOB, Phone, Address, Scalp info | Purpose: Consultation & booking management | Retention: 1 year after service completion',
+    privacy_req_detail:'Items: Name, DOB, Phone, Address, Scalp info | Purpose: Consultation & booking management | Retention: 1 year after service',
     privacy_link:'View full privacy policy →',
     privacy_mkt:'I agree to receive marketing information (optional)',
     privacy_mkt_detail:'Receive event, promotion, and new service notifications.',
@@ -771,59 +792,60 @@ const T = {
     btn_next:'NEXT →', btn_back:'← BACK', btn_submit:'SUBMIT →', btn_ing:'Submitting...',
     done_title:'Form Submitted',
     done_desc:"Thank you for your information.\nScálpit will prepare the best scalp care for you.\nWe look forward to your visit.",
-    done_name:'Name', done_phone:'Phone', done_res:'Visit Type', done_serv:'Services',
+    done_name:'Name / DOB', done_phone:'Phone', done_res:'Reservation', done_serv:'Services',
     err_server:'An error occurred. Please try again.',
     err_network:'Network error. Please try again later.',
     lang_switch:'Language',
   },
   zh: {
     notice_title:'注意事项',
-    notice_body:'填写问卷后，Scálpit咨询团队将单独与您联系。\n请在访问前务必填写。',
+    notice_body:'如果您预约了2人或以上，请将此链接分享给同行人员，请所有人填写。\n未填写问卷可能导致咨询受限。',
     step_of:(c,t)=>`步骤 ${c} / ${t}`,
-    s1_eyebrow:'第 1 步，共 5 步',
-    s1_title:'来访目的', s1_desc:'请告诉我们您来访的原因。',
-    q_res:'来访类型',
-    r1:'初次来访', r2:'再次来访（有过使用经历）', r3:'通过活动/优惠预约',
-    err_res:'请选择来访类型。',
-    s2_eyebrow:'第 2 步，共 5 步',
-    s2_title:'基本信息', s2_desc:'请输入您的基本信息。',
-    q_name:'姓名', ph_name:'请输入您的姓名',
-    q_birth:'出生日期', ph_birth:'例) 19950315',
+    s1_eyebrow:'第 1 步，共 5 步', s1_title:'预约信息', s1_desc:'请选择预约人数和咨询方式。',
+    q_res:'预约人数',
+    r1:'2人或以上（已共享链接给同行！）', r2:'1人预约',
+    err_res:'请选择预约人数。',
+    q_cons:'咨询类型',
+    c1:'以放松为主，只需简单咨询。', c2:'需要精密诊断和详细咨询。',
+    err_cons:'请选择咨询类型。',
+    s2_eyebrow:'第 2 步，共 5 步', s2_title:'基本信息', s2_desc:'请输入您的基本信息。',
+    q_name_birth:'姓名 / 出生日期', ph_name_birth:'例) 张三 / 1995.03.15',
     q_phone:'联系电话', ph_phone:'例) 010-1234-5678',
-    q_addr:'地址', q_addr_hint:'（市/区级别）', ph_addr:'例) 首尔 江南区',
-    err_name:'请输入您的姓名。', err_birth:'请输入您的出生日期。',
-    err_phone:'请输入您的联系电话。', err_addr:'请输入您的地址。',
-    s3_eyebrow:'第 3 步，共 5 步',
-    s3_title:'治疗经历 & 来访途径', s3_desc:'请告知您的以往护理经历及如何了解到我们。',
+    q_addr:'地址', q_addr_hint:'（至街道级别即可）', ph_addr:'例) 首尔 江南区 新沙洞',
+    err_name:'请输入姓名和出生日期。', err_phone:'请输入联系电话。', err_addr:'请输入地址。',
+    s3_eyebrow:'第 3 步，共 5 步', s3_title:'治疗经历 & 来访途径', s3_desc:'请告知您的以往护理经历及如何了解到我们。',
     q_treat:'护理（治疗）经历', treat_hint:'可多选',
     th1:'医院治疗', th2:'专业头皮护理', th3:'药物治疗',
-    th4:'头皮&毛发手术（Meso、PRP等）', th5:'普通美发沙龙护理',
-    th6:'家庭护理（头皮洗发水/安瓶等）', th7:'无',
+    th4:'头皮&毛发手术（Meso、PRP等）', th5:'普通美发沙龙护理', th6:'家庭护理（头皮洗发水/安瓶等）',
     q_src:'来访途径',
-    vs3:'Naver搜索', vs4:'Naver Cafe/博客', vs5:'朋友介绍', vs6:'招牌/横幅', vs7:'其他',
+    vs3:'Naver搜索', vs4:'Naver Cafe/博客', vs5:'朋友介绍', vs6:'招牌/横幅',
     err_src:'请选择来访途径。',
-    s4_eyebrow:'第 4 步，共 5 步',
-    s4_title:'头皮烦恼', s4_desc:'请告知您目前的头皮状况和生活习惯。',
+    s4_eyebrow:'第 4 步，共 5 步', s4_title:'头皮烦恼', s4_desc:'请告知您目前的头皮状况和生活习惯。',
     q_scalp:'主要头皮烦恼', scalp_hint:'可多选',
     sc1:'脱发', sc2:'瘙痒', sc3:'干燥', sc4:'油性/油光', sc5:'头皮屑',
     sc6:'红斑/发红', sc7:'气味', sc8:'头皮燥热', sc9:'粉刺&炎症',
-    sc10:'头皮疼痛/敏感', sc11:'没有头皮烦恼',
+    sc10:'头皮疼痛/敏感', sc11:'其他',
     err_scalp:'请至少选择一项头皮烦恼。',
+    q_perm:'烫发/染发频率', ph_perm:'例) 染发每2个月一次，烫发一年一次',
     q_shampoo:'洗发频率',
     sf1:'每日早晚各一次', sf2:'每日早晨一次', sf3:'每日晚上一次',
     sf4:'每两天一次', sf5:'其他',
     err_shampoo:'请选择洗发频率。',
-    s5_eyebrow:'第 5 步，共 5 步',
-    s5_title:'服务选择 & 同意', s5_desc:'请选择您希望的护理服务并完成隐私同意。',
-    q_serv:'希望的护理项目', serv_hint:'可多选',
-    ds1_name:'头皮基础护理', ds1_desc:'头皮扫描诊断后，提供定制化清洁和安瓶护理。Scálpit最基础的核心课程。',
-    ds2_name:'头皮高级护理', ds2_sub:'清洁 + 安瓶 + PEMF', ds2_desc:'高级头皮清洁配合定制安瓶，加上PEMF低频管理，改善血液循环，集中护理预防脱发。',
-    ds3_name:'毛发复活护理', ds3_sub:'头皮护理 + 毛发集中护理', ds3_desc:'为受损纤细的毛发补充营养并强化毛根的头皮&毛发综合护理课程。',
-    ds4_name:'全套高级护理', ds4_sub:'头皮 + PEMF + 毛发 — 全程', ds4_desc:'整合了Scálpit所有核心护理的完整高级课程。头皮、毛发、血液循环护理一次完成。',
-    ds5_name:'咨询后决定', ds5_desc:'不确定需要什么护理时，通过专业咨询为您推荐最佳课程。',
-    err_serv:'请选择护理项目。',
+    q_genetic:'脱发遗传史', hg1:'有', hg2:'无',
+    err_genetic:'请选择脱发遗传史。',
+    s5_eyebrow:'第 5 步，共 5 步', s5_title:'服务选择 & 同意', s5_desc:'请选择您感兴趣的服务并完成同意事项。',
+    q_serv:'感兴趣的服务', serv_hint:'可多选',
+    ds1_name:'头皮水疗', ds1_desc:'为头皮和毛发提供深度放松和营养的治愈系头皮水疗。',
+    ds2_name:'脱发护理', ds2_desc:'改善头皮环境并强化毛根的专业脱发护理项目。',
+    ds3_name:'头皮去角质', ds3_desc:'彻底清除堆积的皮脂和角质，净化头皮。',
+    ds4_name:'问题头皮护理', ds4_desc:'针对脂溢性、敏感性、炎症性等问题头皮进行集中护理。',
+    err_serv:'请选择感兴趣的服务。',
+    q_video:'拍摄同意',
+    video_desc:"如果您希望用您的手机录制头皮水疗过程，请选择'是'。",
+    vc1:'是，我同意拍摄。', vc2:'否，我不同意拍摄。',
+    err_video:'请选择您的意愿。',
     privacy_req:'我同意收集和使用个人信息',
-    privacy_req_detail:'收集项目：姓名、出生日期、联系方式、地址、头皮状况信息 | 收集目的：头皮护理咨询及预约管理 | 保存期限：服务完成后1年',
+    privacy_req_detail:'收集项目：姓名、出生日期、联系方式、地址、头皮状况 | 收集目的：头皮护理咨询及预约管理 | 保存期限：服务完成后1年',
     privacy_link:'查看完整隐私政策 →',
     privacy_mkt:'我同意接收营销信息（可选）',
     privacy_mkt_detail:'接收活动、促销、新服务等营销信息。',
@@ -831,59 +853,59 @@ const T = {
     btn_next:'下一步 →', btn_back:'← 上一步', btn_submit:'提交 →', btn_ing:'提交中...',
     done_title:'问卷已提交',
     done_desc:'感谢您提供宝贵信息。\nScálpit将为您准备最佳的头皮护理。\n期待您的到来。',
-    done_name:'姓名', done_phone:'联系电话', done_res:'来访类型', done_serv:'希望的服务',
-    err_server:'发生错误，请重试。',
-    err_network:'服务器连接错误，请稍后重试。',
+    done_name:'姓名/出生日期', done_phone:'联系电话', done_res:'预约类型', done_serv:'感兴趣的服务',
+    err_server:'发生错误，请重试。', err_network:'服务器连接错误，请稍后重试。',
     lang_switch:'语言',
   },
   ja: {
     notice_title:'ご案内',
-    notice_body:'アンケート回答後、Scálpitの担当者より個別にご連絡いたします。\nご来店前に必ずご記入ください。',
+    notice_body:'2名以上でご予約の場合は、同行の方にもこのリンクを共有し、全員ご記入ください。\nアンケート未提出の場合、カウンセリングが制限される場合があります。',
     step_of:(c,t)=>`STEP ${c} / ${t}`,
-    s1_eyebrow:'STEP 1 / 5',
-    s1_title:'ご来店目的', s1_desc:'ご来店の理由をお教えください。',
-    q_res:'ご来店タイプ',
-    r1:'初めてのご来店', r2:'リピートご来店（以前ご利用経験あり）', r3:'イベント / プロモーションでのご予約',
-    err_res:'ご来店タイプを選択してください。',
-    s2_eyebrow:'STEP 2 / 5',
-    s2_title:'基本情報', s2_desc:'お客様の基本情報をご入力ください。',
-    q_name:'お名前', ph_name:'お名前を入力してください',
-    q_birth:'生年月日', ph_birth:'例) 19950315',
+    s1_eyebrow:'STEP 1 / 5', s1_title:'予約情報', s1_desc:'予約人数とカウンセリング方法を選択してください。',
+    q_res:'予約人数',
+    r1:'2名以上のご予約（同行者へのリンク共有済み！）', r2:'1名でのご予約',
+    err_res:'予約人数を選択してください。',
+    q_cons:'カウンセリングタイプ',
+    c1:'リラクゼーション重視、簡単なカウンセリングのみ希望。', c2:'精密診断・カウンセリング希望。',
+    err_cons:'カウンセリングタイプを選択してください。',
+    s2_eyebrow:'STEP 2 / 5', s2_title:'基本情報', s2_desc:'お客様の基本情報をご入力ください。',
+    q_name_birth:'お名前 / 生年月日', ph_name_birth:'例) 山田太郎 / 1995.03.15',
     q_phone:'電話番号', ph_phone:'例) 010-1234-5678',
-    q_addr:'ご住所', q_addr_hint:'（市区町村単位）', ph_addr:'例) ソウル 江南区',
-    err_name:'お名前を入力してください。', err_birth:'生年月日を入力してください。',
-    err_phone:'電話番号を入力してください。', err_addr:'ご住所を入力してください。',
-    s3_eyebrow:'STEP 3 / 5',
-    s3_title:'施術歴 & 来店経路', s3_desc:'これまでの施術経験と、当店をお知りになった経緯を教えてください。',
+    q_addr:'ご住所', q_addr_hint:'（町・丁目レベルで可）', ph_addr:'例) ソウル 江南区 新沙洞',
+    err_name:'お名前と生年月日を入力してください。', err_phone:'電話番号を入力してください。', err_addr:'ご住所を入力してください。',
+    s3_eyebrow:'STEP 3 / 5', s3_title:'施術歴 & 来店経路', s3_desc:'これまでの施術経験と、当店をお知りになった経緯を教えてください。',
     q_treat:'ケア（治療）経験', treat_hint:'複数選択可',
     th1:'病院での治療', th2:'専門頭皮ケア', th3:'薬の服用',
-    th4:'頭皮・毛髪施術（メゾ、PRPなど）', th5:'一般美容室でのケア',
-    th6:'ホームケア（頭皮シャンプー/アンプルなど）', th7:'なし',
+    th4:'頭皮・毛髪施術（メゾ、PRPなど）', th5:'一般美容室でのケア', th6:'ホームケア（頭皮シャンプー/アンプルなど）',
     q_src:'来店経路',
-    vs3:'Naver検索', vs4:'Naver Cafe / ブログ', vs5:'知人の紹介', vs6:'看板 / バナー', vs7:'その他',
+    vs3:'Naver検索', vs4:'Naver Cafe / ブログ', vs5:'知人の紹介', vs6:'看板 / バナー',
     err_src:'来店経路を選択してください。',
-    s4_eyebrow:'STEP 4 / 5',
-    s4_title:'頭皮のお悩み', s4_desc:'現在の頭皮状態と生活習慣を教えてください。',
+    s4_eyebrow:'STEP 4 / 5', s4_title:'頭皮のお悩み', s4_desc:'現在の頭皮状態と生活習慣を教えてください。',
     q_scalp:'主な頭皮のお悩み', scalp_hint:'複数選択可',
     sc1:'抜け毛・薄毛', sc2:'かゆみ', sc3:'乾燥', sc4:'脂性・テカリ', sc5:'フケ',
     sc6:'赤み・発疹', sc7:'臭い', sc8:'頭皮の熱感', sc9:'ニキビ・炎症',
-    sc10:'頭皮の痛み・刺激感', sc11:'お悩みなし',
+    sc10:'頭皮の痛み・刺激感', sc11:'その他',
     err_scalp:'頭皮のお悩みを一つ以上選択してください。',
+    q_perm:'パーマ / カラーの頻度', ph_perm:'例) カラー2ヶ月に1回、パーマ年1回',
     q_shampoo:'シャンプーの頻度',
     sf1:'毎日朝晩1回ずつ', sf2:'毎日朝1回', sf3:'毎日夜1回',
     sf4:'2日に1回', sf5:'その他',
     err_shampoo:'シャンプーの頻度を選択してください。',
-    s5_eyebrow:'STEP 5 / 5',
-    s5_title:'サービス選択 & 同意', s5_desc:'ご希望のサービスを選択し、個人情報への同意を完了してください。',
-    q_serv:'ご希望のケア項目', serv_hint:'複数選択可',
-    ds1_name:'スカルプ ベーシックケア', ds1_desc:'頭皮スキャン診断後、カスタマイズされたクレンジングとアンプルケアを提供します。Scálpitの基本かつ核心コースです。',
-    ds2_name:'スカルプ プレミアムケア', ds2_sub:'クレンジング + アンプル + PEMF', ds2_desc:'プレミアム頭皮クレンジングとカスタムアンプルに、PEMF低周波ケアを加えて血行改善と薄毛予防を集中ケアします。',
-    ds3_name:'ヘア リバイバルケア', ds3_sub:'頭皮ケア + 集中ヘアトリートメント', ds3_desc:'ダメージを受けた細い髪に栄養を補い、毛根を強化する頭皮・頭髪統合ケアコースです。',
-    ds4_name:'トータル プレミアムケア', ds4_sub:'頭皮 + PEMF + ヘア — フルコース', ds4_desc:'Scálpitのすべてのコアケアを統合した完成形プレミアムコースです。頭皮・毛髪・血行ケアが一度に行われます。',
-    ds5_name:'カウンセリング後に決定', ds5_desc:'どのようなケアが必要か迷ったとき、専門家のカウンセリングを通じて最適なコースをご提案いたします。',
-    err_serv:'ケア項目を選択してください。',
+    q_genetic:'脱毛の遺伝歴', hg1:'あり', hg2:'なし',
+    err_genetic:'脱毛の遺伝歴を選択してください。',
+    s5_eyebrow:'STEP 5 / 5', s5_title:'サービス選択 & 同意', s5_desc:'ご希望のサービスを選択し、同意事項をご確認ください。',
+    q_serv:'ご興味のあるサービス', serv_hint:'複数選択可',
+    ds1_name:'ヘッドスパ', ds1_desc:'頭皮と髪に深いリラクゼーションと栄養を提供するヒーリングヘッドスパです。',
+    ds2_name:'薄毛・抜け毛ケア', ds2_desc:'頭皮環境を改善し毛根を強化する専門的な薄毛ケアプログラムです。',
+    ds3_name:'頭皮スケーリング', ds3_desc:'蓄積した皮脂と角質を除去し、頭皮を清潔に浄化します。',
+    ds4_name:'問題頭皮ケア', ds4_desc:'脂漏性・敏感性・炎症性などの問題頭皮を集中ケアします。',
+    err_serv:'サービスを選択してください。',
+    q_video:'記念撮影の同意',
+    video_desc:"ヘッドスパ中のお姿をお客様のスマートフォンで動画・写真撮影をご希望の場合は「はい」を選択してください。",
+    vc1:'はい、撮影を希望します。', vc2:'いいえ、撮影を希望しません。',
+    err_video:'ご意向を選択してください。',
     privacy_req:'個人情報の収集・利用に同意します',
-    privacy_req_detail:'収集項目：氏名、生年月日、連絡先、住所、頭皮状態情報 | 収集目的：頭皮ケア相談・予約管理 | 保有期間：サービス提供完了後1年',
+    privacy_req_detail:'収集項目：氏名、生年月日、連絡先、住所、頭皮状態 | 収集目的：頭皮ケア相談・予約管理 | 保有期間：サービス完了後1年',
     privacy_link:'個人情報処理方針の全文を見る →',
     privacy_mkt:'マーケティング情報の受信に同意します（任意）',
     privacy_mkt_detail:'イベント、プロモーション、新規サービスなどのマーケティング情報を受信します。',
@@ -891,7 +913,7 @@ const T = {
     btn_next:'次へ →', btn_back:'← 戻る', btn_submit:'送信 →', btn_ing:'送信中...',
     done_title:'アンケートが受け付けられました',
     done_desc:'貴重な情報をありがとうございます。\nScálpitで最適な頭皮ケアをご準備いたします。\nご来店をお待ちしております。',
-    done_name:'お名前', done_phone:'電話番号', done_res:'来店タイプ', done_serv:'ご希望サービス',
+    done_name:'お名前/生年月日', done_phone:'電話番号', done_res:'予約タイプ', done_serv:'ご希望サービス',
     err_server:'エラーが発生しました。もう一度お試しください。',
     err_network:'サーバー接続エラーです。しばらくしてからお試しください。',
     lang_switch:'言語変更',
@@ -912,10 +934,7 @@ function selectLang(l) {
   updateProgress();
   window.scrollTo(0, 0);
 }
-
-function openLangScreen() {
-  document.getElementById('langScreen').classList.remove('hidden');
-}
+function openLangScreen() { document.getElementById('langScreen').classList.remove('hidden'); }
 
 function applyLang() {
   const t = T[lang];
@@ -928,30 +947,27 @@ function applyLang() {
   document.getElementById('s1Title').textContent = t.s1_title;
   document.getElementById('s1Desc').textContent = t.s1_desc;
   document.getElementById('qRes').textContent = t.q_res;
-  document.getElementById('rLabel1').textContent = t.r1;
-  document.getElementById('rLabel2').textContent = t.r2;
-  document.getElementById('rLabel3').textContent = t.r3;
-  document.getElementById('r1').value = t.r1;
-  document.getElementById('r2').value = t.r2;
-  document.getElementById('r3').value = t.r3;
+  document.getElementById('rLabel1').textContent = t.r1; document.getElementById('r1').value = t.r1;
+  document.getElementById('rLabel2').textContent = t.r2; document.getElementById('r2').value = t.r2;
   document.getElementById('err-reservationType').textContent = t.err_res;
+  document.getElementById('qCons').textContent = t.q_cons;
+  document.getElementById('cLabel1').textContent = t.c1; document.getElementById('c1').value = t.c1;
+  document.getElementById('cLabel2').textContent = t.c2; document.getElementById('c2').value = t.c2;
+  document.getElementById('err-consultationType').textContent = t.err_cons;
   document.getElementById('btnNext1').textContent = t.btn_next;
 
   // Step 2
   document.getElementById('s2Eyebrow').textContent = t.s2_eyebrow;
   document.getElementById('s2Title').textContent = t.s2_title;
   document.getElementById('s2Desc').textContent = t.s2_desc;
-  document.getElementById('qName').textContent = t.q_name;
-  document.getElementById('name').placeholder = t.ph_name;
-  document.getElementById('qBirth').textContent = t.q_birth;
-  document.getElementById('birthdate').placeholder = t.ph_birth;
+  document.getElementById('qNameBirth').textContent = t.q_name_birth;
+  document.getElementById('nameBirth').placeholder = t.ph_name_birth;
   document.getElementById('qPhone').textContent = t.q_phone;
   document.getElementById('phone').placeholder = t.ph_phone;
   document.getElementById('qAddr').textContent = t.q_addr;
   document.getElementById('qAddrHint').textContent = t.q_addr_hint;
   document.getElementById('address').placeholder = t.ph_addr;
-  document.getElementById('err-name').textContent = t.err_name;
-  document.getElementById('err-birthdate').textContent = t.err_birth;
+  document.getElementById('err-nameBirth').textContent = t.err_name;
   document.getElementById('err-phone').textContent = t.err_phone;
   document.getElementById('err-address').textContent = t.err_addr;
   document.getElementById('btnPrev2').textContent = t.btn_back;
@@ -963,7 +979,7 @@ function applyLang() {
   document.getElementById('s3Desc').textContent = t.s3_desc;
   document.getElementById('qTreat').textContent = t.q_treat;
   document.getElementById('treatHint').textContent = t.treat_hint;
-  for (let i = 1; i <= 7; i++) {
+  for (let i = 1; i <= 6; i++) {
     document.getElementById(`thLabel${i}`).textContent = t[`th${i}`];
     document.getElementById(`th${i}`).value = t[`th${i}`];
   }
@@ -972,7 +988,6 @@ function applyLang() {
   document.getElementById('vsLabel4').textContent = t.vs4; document.getElementById('vs4').value = t.vs4;
   document.getElementById('vsLabel5').textContent = t.vs5; document.getElementById('vs5').value = t.vs5;
   document.getElementById('vsLabel6').textContent = t.vs6; document.getElementById('vs6').value = t.vs6;
-  document.getElementById('vsLabel7').textContent = t.vs7; document.getElementById('vs7').value = t.vs7;
   document.getElementById('err-visitSource').textContent = t.err_src;
   document.getElementById('btnPrev3').textContent = t.btn_back;
   document.getElementById('btnNext3').textContent = t.btn_next;
@@ -988,12 +1003,18 @@ function applyLang() {
     document.getElementById(`sc${i}`).value = t[`sc${i}`];
   }
   document.getElementById('err-scalpConcerns').textContent = t.err_scalp;
+  document.getElementById('qPerm').textContent = t.q_perm;
+  document.getElementById('permFrequency').placeholder = t.ph_perm;
   document.getElementById('qShampoo').textContent = t.q_shampoo;
   for (let i = 1; i <= 5; i++) {
     document.getElementById(`sfLabel${i}`).textContent = t[`sf${i}`];
     document.getElementById(`sf${i}`).value = t[`sf${i}`];
   }
   document.getElementById('err-shampooFrequency').textContent = t.err_shampoo;
+  document.getElementById('qGenetic').textContent = t.q_genetic;
+  document.getElementById('hgLabel1').textContent = t.hg1; document.getElementById('hg1').value = t.hg1;
+  document.getElementById('hgLabel2').textContent = t.hg2; document.getElementById('hg2').value = t.hg2;
+  document.getElementById('err-hairLossGenetic').textContent = t.err_genetic;
   document.getElementById('btnPrev4').textContent = t.btn_back;
   document.getElementById('btnNext4').textContent = t.btn_next;
 
@@ -1003,21 +1024,16 @@ function applyLang() {
   document.getElementById('s5Desc').textContent = t.s5_desc;
   document.getElementById('qServ').textContent = t.q_serv;
   document.getElementById('servHint').textContent = t.serv_hint;
-  document.getElementById('dsName1').textContent = t.ds1_name;
-  document.getElementById('dsDesc1').textContent = t.ds1_desc;
-  document.getElementById('dsName2').textContent = t.ds2_name;
-  document.getElementById('dsSub2').textContent = t.ds2_sub;
-  document.getElementById('dsDesc2').textContent = t.ds2_desc;
-  document.getElementById('dsName3').textContent = t.ds3_name;
-  document.getElementById('dsSub3').textContent = t.ds3_sub;
-  document.getElementById('dsDesc3').textContent = t.ds3_desc;
-  document.getElementById('dsName4').textContent = t.ds4_name;
-  document.getElementById('dsSub4').textContent = t.ds4_sub;
-  document.getElementById('dsDesc4').textContent = t.ds4_desc;
-  document.getElementById('dsName5').textContent = t.ds5_name;
-  document.getElementById('dsDesc5').textContent = t.ds5_desc;
-  document.getElementById('ds5').value = t.ds5_name;
+  document.getElementById('dsName1').textContent = t.ds1_name; document.getElementById('dsDesc1').textContent = t.ds1_desc;
+  document.getElementById('dsName2').textContent = t.ds2_name; document.getElementById('dsDesc2').textContent = t.ds2_desc;
+  document.getElementById('dsName3').textContent = t.ds3_name; document.getElementById('dsDesc3').textContent = t.ds3_desc;
+  document.getElementById('dsName4').textContent = t.ds4_name; document.getElementById('dsDesc4').textContent = t.ds4_desc;
   document.getElementById('err-desiredServices').textContent = t.err_serv;
+  document.getElementById('qVideo').textContent = t.q_video;
+  document.getElementById('videoDesc').textContent = t.video_desc;
+  document.getElementById('vcLabel1').textContent = t.vc1;
+  document.getElementById('vcLabel2').textContent = t.vc2;
+  document.getElementById('err-videoConsent').textContent = t.err_video;
   document.getElementById('privacyReqText').textContent = t.privacy_req;
   document.getElementById('privacyReqDetail').textContent = t.privacy_req_detail;
   document.getElementById('privacyLinkText').textContent = t.privacy_link;
@@ -1038,10 +1054,7 @@ function updateProgress() {
     dot.classList.remove('active', 'done');
     if (i < currentStep) dot.classList.add('done');
     else if (i === currentStep) dot.classList.add('active');
-    if (i < TOTAL_STEPS) {
-      const line = document.getElementById(`line${i}`);
-      line.classList.toggle('done', i < currentStep);
-    }
+    if (i < TOTAL_STEPS) document.getElementById(`line${i}`).classList.toggle('done', i < currentStep);
   }
 }
 
@@ -1059,36 +1072,24 @@ function showErr(id, show) {
 }
 
 function nextStep(from) {
-  const t = T[lang];
   let ok = true;
-
   if (from === 1) {
-    const v = document.querySelector('input[name="reservationType"]:checked');
-    if (!v) { showErr('reservationType', true); ok = false; }
-    else showErr('reservationType', false);
+    if (!document.querySelector('input[name="reservationType"]:checked')) { showErr('reservationType', true); ok = false; } else showErr('reservationType', false);
+    if (!document.querySelector('input[name="consultationType"]:checked')) { showErr('consultationType', true); ok = false; } else showErr('consultationType', false);
   }
   if (from === 2) {
-    const nm = document.getElementById('name').value.trim();
-    const bd = document.getElementById('birthdate').value.trim();
-    const ph = document.getElementById('phone').value.trim();
-    const ad = document.getElementById('address').value.trim();
-    if (!nm) { showErr('name', true); ok = false; } else showErr('name', false);
-    if (!bd) { showErr('birthdate', true); ok = false; } else showErr('birthdate', false);
-    if (!ph) { showErr('phone', true); ok = false; } else showErr('phone', false);
-    if (!ad) { showErr('address', true); ok = false; } else showErr('address', false);
+    if (!document.getElementById('nameBirth').value.trim()) { showErr('nameBirth', true); ok = false; } else showErr('nameBirth', false);
+    if (!document.getElementById('phone').value.trim()) { showErr('phone', true); ok = false; } else showErr('phone', false);
+    if (!document.getElementById('address').value.trim()) { showErr('address', true); ok = false; } else showErr('address', false);
   }
   if (from === 3) {
-    const v = document.querySelector('input[name="visitSource"]:checked');
-    if (!v) { showErr('visitSource', true); ok = false; }
-    else showErr('visitSource', false);
+    if (!document.querySelector('input[name="visitSource"]:checked')) { showErr('visitSource', true); ok = false; } else showErr('visitSource', false);
   }
   if (from === 4) {
-    const sc = document.querySelectorAll('input[name="scalpConcerns"]:checked');
-    if (!sc.length) { showErr('scalpConcerns', true); ok = false; } else showErr('scalpConcerns', false);
-    const sf = document.querySelector('input[name="shampooFrequency"]:checked');
-    if (!sf) { showErr('shampooFrequency', true); ok = false; } else showErr('shampooFrequency', false);
+    if (!document.querySelectorAll('input[name="scalpConcerns"]:checked').length) { showErr('scalpConcerns', true); ok = false; } else showErr('scalpConcerns', false);
+    if (!document.querySelector('input[name="shampooFrequency"]:checked')) { showErr('shampooFrequency', true); ok = false; } else showErr('shampooFrequency', false);
+    if (!document.querySelector('input[name="hairLossGenetic"]:checked')) { showErr('hairLossGenetic', true); ok = false; } else showErr('hairLossGenetic', false);
   }
-
   if (ok) showStep(from + 1);
 }
 
@@ -1097,50 +1098,53 @@ function prevStep(from) { showStep(from - 1); }
 async function submitForm() {
   const t = T[lang];
   const ds = [...document.querySelectorAll('input[name="desiredServices"]:checked')].map(x => x.value);
-  if (!ds.length) { showErr('desiredServices', true); return; }
-  showErr('desiredServices', false);
-  if (!document.getElementById('privacyRequired').checked) { showErr('privacy', true); return; }
-  showErr('privacy', false);
+  if (!ds.length) { showErr('desiredServices', true); return; } else showErr('desiredServices', false);
+  if (!document.querySelector('input[name="videoConsent"]:checked')) { showErr('videoConsent', true); return; } else showErr('videoConsent', false);
+  if (!document.getElementById('privacyRequired').checked) { showErr('privacy', true); return; } else showErr('privacy', false);
 
   const btn = document.getElementById('btnSubmit');
   btn.textContent = t.btn_ing; btn.disabled = true;
 
+  const nb = document.getElementById('nameBirth').value.trim();
+  const namePart = nb.split('/')[0].trim();
+
   const data = {
     lang,
     reservationType: document.querySelector('input[name="reservationType"]:checked')?.value || '',
-    name: document.getElementById('name').value.trim(),
-    birthdate: document.getElementById('birthdate').value.trim(),
+    consultationType: document.querySelector('input[name="consultationType"]:checked')?.value || '',
+    nameBirth: nb,
+    name: namePart,
     phone: document.getElementById('phone').value.trim(),
     address: document.getElementById('address').value.trim(),
     treatmentHistory: [...document.querySelectorAll('input[name="treatmentHistory"]:checked')].map(x => x.value),
     visitSource: document.querySelector('input[name="visitSource"]:checked')?.value || '',
     scalpConcerns: [...document.querySelectorAll('input[name="scalpConcerns"]:checked')].map(x => x.value),
+    permFrequency: document.getElementById('permFrequency').value.trim(),
     shampooFrequency: document.querySelector('input[name="shampooFrequency"]:checked')?.value || '',
+    hairLossGenetic: document.querySelector('input[name="hairLossGenetic"]:checked')?.value || '',
     desiredServices: ds,
+    videoConsent: document.querySelector('input[name="videoConsent"]:checked')?.value || '',
     marketingConsent: document.getElementById('privacyMarketing').checked,
   };
 
   try {
     const res = await fetch('/api/scalpit/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data),
     });
     if (!res.ok) throw new Error('server');
     const json = await res.json();
     if (!json.success) throw new Error('server');
 
     document.getElementById('formWrap').style.display = 'none';
-    const done = document.getElementById('doneScreen');
     document.getElementById('doneTitle').textContent = t.done_title;
     document.getElementById('doneDesc').textContent = t.done_desc;
     document.getElementById('doneInfo').innerHTML = `
-      <div class="done-info-row"><span class="key">${t.done_name}</span><span class="val">${data.name}</span></div>
+      <div class="done-info-row"><span class="key">${t.done_name}</span><span class="val">${data.nameBirth}</span></div>
       <div class="done-info-row"><span class="key">${t.done_phone}</span><span class="val">${data.phone}</span></div>
       <div class="done-info-row"><span class="key">${t.done_res}</span><span class="val">${data.reservationType}</span></div>
       <div class="done-info-row"><span class="key">${t.done_serv}</span><span class="val">${data.desiredServices.join(', ')}</span></div>
     `;
-    done.classList.add('show');
+    document.getElementById('doneScreen').classList.add('show');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   } catch (e) {
     btn.textContent = t.btn_submit; btn.disabled = false;
