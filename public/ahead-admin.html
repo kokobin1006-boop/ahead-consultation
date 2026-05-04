@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title><span class="la">a</span>HEAD | 관리자</title>
+  <title>aHEAD | 관리자</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --pink: #FF0090;
-      --pink-light: #FF3DAD;
       --pink-dark: #CC0073;
       --white: #ffffff;
       --off-white: #FAFAFA;
@@ -21,52 +20,21 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Noto Sans KR', 'Montserrat', sans-serif; background: var(--off-white); color: var(--text); }
 
-    .header {
-      background: var(--dark);
-      padding: 16px 24px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .logo {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 16px; font-weight: 600;
-      letter-spacing: 9px; padding-left: 9px;
-      color: var(--pink);
-    }
-    .logo .la { font-size: 22px; }
-    .login-logo .la { font-size: 39px; }
-    .logo-sub { font-size: 11px; color: #555; letter-spacing: 2px; margin-left: 10px; font-family: 'Montserrat', sans-serif; }
-    .header-badge {
-      background: var(--pink);
-      color: var(--white);
-      font-size: 10px;
-      font-weight: 700;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-family: 'Montserrat', sans-serif;
-      letter-spacing: 1px;
-    }
+    /* 헤더 */
+    .header { overflow: hidden; }
+    .header img { width: 100%; display: block; }
 
     /* 로그인 */
     .login-wrap {
       max-width: 400px; margin: 80px auto; padding: 48px 36px;
       background: var(--white); border-radius: 16px;
-      box-shadow: 0 2px 40px rgba(0,0,0,0.08);
-      text-align: center;
+      box-shadow: 0 2px 40px rgba(0,0,0,0.08); text-align: center;
     }
-    .login-logo {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 28px; font-weight: 600;
-      letter-spacing: 14px; padding-left: 14px;
-      color: var(--pink);
-      margin-bottom: 8px;
-      text-align: center;
-    }
-    .login-sub { font-size: 12px; color: var(--text-muted); margin-bottom: 36px; letter-spacing: 1px; font-family: 'Montserrat', sans-serif; }
+    .login-wrap img { width: 220px; max-width: 80%; margin-bottom: 24px; }
+    .login-sub { font-size: 12px; color: var(--text-muted); margin-bottom: 28px; letter-spacing: 1px; font-family: 'Montserrat', sans-serif; }
     .login-input {
-      width: 100%; padding: 14px 16px;
-      border: 1.5px solid var(--border); border-radius: 10px;
-      font-size: 14px; font-family: 'Noto Sans KR', sans-serif;
-      outline: none; margin-bottom: 12px; text-align: center; letter-spacing: 3px;
+      width: 100%; padding: 14px 16px; border: 1.5px solid var(--border); border-radius: 10px;
+      font-size: 14px; font-family: 'Noto Sans KR', sans-serif; outline: none; margin-bottom: 12px; text-align: center; letter-spacing: 3px;
     }
     .login-input:focus { border-color: var(--pink); }
     .login-btn {
@@ -77,13 +45,30 @@
     .login-btn:hover { background: var(--pink-dark); }
     .login-err { color: var(--pink); font-size: 13px; margin-top: 10px; display: none; }
 
-    /* 대시보드 */
-    .dashboard { max-width: 1200px; margin: 0 auto; padding: 32px 16px 80px; display: none; }
+    /* 탭 */
+    .tab-bar {
+      background: var(--white); border-bottom: 1px solid var(--border);
+      display: flex; max-width: 1200px; margin: 0 auto; padding: 0 16px;
+    }
+    .tab-btn {
+      padding: 16px 24px; font-size: 12px; font-weight: 700; font-family: 'Montserrat', sans-serif;
+      letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+      border: none; background: none; color: var(--text-muted);
+      border-bottom: 3px solid transparent; margin-bottom: -1px; transition: all 0.2s;
+    }
+    .tab-btn.active { color: var(--pink); border-bottom-color: var(--pink); }
+    .tab-btn:hover { color: var(--pink); }
 
+    /* 대시보드 공통 */
+    .dashboard { display: none; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .panel-wrap { max-width: 1200px; margin: 0 auto; padding: 32px 16px 80px; }
+
+    /* 스탯 */
     .stat-row { display: flex; gap: 14px; margin-bottom: 28px; flex-wrap: wrap; }
     .stat-card {
-      flex: 1; min-width: 140px;
-      background: var(--white); border-radius: 12px;
+      flex: 1; min-width: 140px; background: var(--white); border-radius: 12px;
       padding: 20px 22px; border: 1px solid var(--border);
     }
     .stat-label { font-size: 10px; color: var(--text-muted); margin-bottom: 8px; font-family: 'Montserrat', sans-serif; letter-spacing: 1.5px; text-transform: uppercase; }
@@ -93,51 +78,38 @@
     .stat-card.highlight .stat-label { color: rgba(255,255,255,0.7); }
     .stat-card.highlight .stat-val { color: var(--white); }
 
-    .section-header {
-      display: flex; align-items: center; gap: 10px;
-      margin-bottom: 16px;
-    }
-    .section-title {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 14px; font-weight: 700; color: var(--dark);
-      letter-spacing: 1px; text-transform: uppercase;
-    }
+    .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .section-title { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; color: var(--dark); letter-spacing: 1px; text-transform: uppercase; }
     .export-btn {
-      margin-left: auto; padding: 8px 18px;
-      background: var(--dark); color: var(--white); border: none;
-      border-radius: 8px; font-size: 11px; font-weight: 700;
+      margin-left: auto; padding: 8px 18px; background: var(--dark); color: var(--white);
+      border: none; border-radius: 8px; font-size: 11px; font-weight: 700;
       font-family: 'Montserrat', sans-serif; cursor: pointer; letter-spacing: 1px;
     }
     .export-btn:hover { background: var(--pink); }
 
-    /* 필터 */
     .filter-row { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
     .search-input {
-      flex: 1; min-width: 180px; padding: 10px 14px;
-      border: 1.5px solid var(--border); border-radius: 8px;
-      font-size: 13px; font-family: 'Noto Sans KR', sans-serif; outline: none;
-      background: var(--white);
+      flex: 1; min-width: 180px; padding: 10px 14px; border: 1.5px solid var(--border);
+      border-radius: 8px; font-size: 13px; font-family: 'Noto Sans KR', sans-serif;
+      outline: none; background: var(--white);
     }
     .search-input:focus { border-color: var(--pink); }
+    .filter-select {
+      padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 8px;
+      font-size: 12px; font-family: inherit; background: var(--white); outline: none; cursor: pointer;
+    }
+    .filter-select:focus { border-color: var(--pink); }
 
-    /* 테이블 */
+    /* 상담 테이블 */
     .table-wrap { overflow-x: auto; border-radius: 12px; box-shadow: 0 1px 20px rgba(0,0,0,0.06); }
     table { width: 100%; border-collapse: collapse; background: var(--white); }
     thead { background: var(--dark); color: var(--white); }
-    thead th {
-      padding: 14px 12px; font-size: 11px; font-weight: 600;
-      text-align: left; white-space: nowrap;
-      font-family: 'Montserrat', sans-serif; letter-spacing: 1px; text-transform: uppercase;
-    }
+    thead th { padding: 14px 12px; font-size: 11px; font-weight: 600; text-align: left; white-space: nowrap; font-family: 'Montserrat', sans-serif; letter-spacing: 1px; text-transform: uppercase; }
     tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
     tbody tr:hover { background: var(--bg-pink); }
     tbody td { padding: 12px 12px; font-size: 13px; color: var(--text); vertical-align: top; }
 
-    .tag {
-      display: inline-block; padding: 2px 8px;
-      border-radius: 20px; font-size: 11px; font-weight: 600;
-      background: var(--bg-pink); color: var(--pink); margin: 2px;
-    }
+    .tag { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; background: var(--bg-pink); color: var(--pink); margin: 2px; }
     .tag.service { background: #F0F0FF; color: #5050CC; }
     .tag.source { background: #F0FFF8; color: #008050; }
 
@@ -152,47 +124,58 @@
     /* 모달 */
     .modal-bg {
       position: fixed; inset: 0; background: rgba(0,0,0,0.4);
-      display: none; align-items: center; justify-content: center; z-index: 1000;
-      backdrop-filter: blur(4px);
+      display: none; align-items: center; justify-content: center; z-index: 1000; backdrop-filter: blur(4px);
     }
     .modal-bg.show { display: flex; }
-    .modal {
-      background: var(--white); border-radius: 16px; padding: 36px;
-      max-width: 520px; width: 90%; max-height: 85vh; overflow-y: auto;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-    }
-    .modal-title {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 16px; font-weight: 700; margin-bottom: 24px;
-      color: var(--dark); letter-spacing: 1px; text-transform: uppercase;
-    }
+    .modal { background: var(--white); border-radius: 16px; padding: 36px; max-width: 520px; width: 90%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
+    .modal-title { font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 24px; color: var(--dark); letter-spacing: 1px; text-transform: uppercase; }
     .modal-row { display: flex; padding: 10px 0; border-bottom: 1px solid var(--border); gap: 16px; }
     .modal-row:last-child { border-bottom: none; }
     .modal-key { width: 110px; flex-shrink: 0; font-size: 11px; color: var(--text-muted); font-weight: 600; font-family: 'Montserrat', sans-serif; letter-spacing: 0.5px; text-transform: uppercase; padding-top: 2px; }
     .modal-val { font-size: 13px; color: var(--dark); font-weight: 500; flex: 1; line-height: 1.6; }
-    .modal-close {
-      margin-top: 24px; width: 100%; padding: 13px; background: var(--dark);
-      color: var(--white); border: none; border-radius: 10px; font-size: 12px; font-weight: 700;
-      font-family: 'Montserrat', sans-serif; cursor: pointer; letter-spacing: 1px;
-    }
+    .modal-close { margin-top: 24px; width: 100%; padding: 13px; background: var(--dark); color: var(--white); border: none; border-radius: 10px; font-size: 12px; font-weight: 700; font-family: 'Montserrat', sans-serif; cursor: pointer; letter-spacing: 1px; }
     .modal-close:hover { background: var(--pink); }
+
+    /* 리뷰 카드 */
+    .review-card {
+      background: var(--white); border: 1.5px solid var(--border);
+      border-radius: 12px; padding: 20px; margin-bottom: 10px;
+      position: relative; transition: border-color 0.2s;
+    }
+    .review-card.bad { border-left: 3px solid var(--pink); }
+    .review-card.good { border-left: 3px solid #43a047; }
+    .review-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
+    .review-date { font-family: 'Montserrat', sans-serif; font-size: 10px; color: var(--text-muted); letter-spacing: 0.5px; }
+    .revisit-badge { font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 99px; letter-spacing: 0.5px; }
+    .revisit-badge.yes { background: #E8F5E9; color: #2E7D32; }
+    .revisit-badge.maybe { background: #FFF8E1; color: #F57F17; }
+    .revisit-badge.no { background: var(--bg-pink); color: var(--pink); }
+    .review-ratings { display: flex; gap: 20px; margin-bottom: 14px; flex-wrap: wrap; }
+    .r-item .r-label { font-size: 10px; color: var(--text-muted); margin-bottom: 3px; }
+    .r-item .r-stars { font-size: 15px; }
+    .review-text { font-size: 13px; color: var(--text); line-height: 1.7; background: var(--off-white); border-radius: 8px; padding: 12px 14px; margin-bottom: 8px; }
+    .review-text.complaint { background: var(--bg-pink); }
+    .review-text .t-label { font-size: 10px; font-weight: 700; color: var(--text-muted); margin-bottom: 4px; }
+    .r-del-btn { position: absolute; top: 14px; right: 14px; background: none; border: none; cursor: pointer; font-size: 14px; opacity: 0.25; transition: opacity 0.2s; padding: 4px; }
+    .r-del-btn:hover { opacity: 1; }
 
     @media (max-width: 600px) {
       .stat-card { min-width: 100px; padding: 16px; }
       thead th, tbody td { font-size: 11px; padding: 10px 8px; }
+      .tab-btn { padding: 14px 16px; font-size: 11px; }
     }
   </style>
 </head>
 <body>
 
-<header class="header" style="padding:0;overflow:hidden;height:auto;">
-  <img src="ahead-admin-header.png" alt="aHEAD ADMIN" style="width:100%;display:block;" />
+<header class="header">
+  <img src="ahead-admin-header.png" alt="aHEAD ADMIN" />
 </header>
 
 <!-- 로그인 -->
 <div class="login-wrap" id="loginWrap">
-  <img src="ahead-admin-login.png" alt="aHEAD" style="width:260px;max-width:80%;display:block;margin:0 auto 24px;" />
-  <div class="login-sub" style="margin-bottom:28px;">ADMIN ACCESS ONLY</div>
+  <img src="ahead-admin-login.png" alt="aHEAD" />
+  <div class="login-sub">ADMIN ACCESS ONLY</div>
   <input type="password" class="login-input" id="pwInput" placeholder="••••••••••" onkeydown="if(event.key==='Enter') doLogin()" />
   <button class="login-btn" onclick="doLogin()">LOGIN →</button>
   <div class="login-err" id="loginErr">비밀번호가 올바르지 않습니다.</div>
@@ -200,40 +183,63 @@
 
 <!-- 대시보드 -->
 <div class="dashboard" id="dashboard">
-  <div class="stat-row" id="statRow"></div>
-
-  <div class="section-header">
-    <div class="section-title">Customer Records</div>
-    <button class="export-btn" onclick="exportCSV()">CSV EXPORT</button>
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('consultation')">상담 내역</button>
+    <button class="tab-btn" onclick="switchTab('review')">고객 리뷰</button>
   </div>
 
-  <div class="filter-row">
-    <input type="text" class="search-input" id="searchInput" placeholder="이름, 연락처 검색..." oninput="renderTable()" />
+  <!-- 상담 내역 탭 -->
+  <div class="tab-panel active" id="tab-consultation">
+    <div class="panel-wrap">
+      <div class="stat-row" id="statRow"></div>
+      <div class="section-header">
+        <div class="section-title">Customer Records</div>
+        <button class="export-btn" onclick="exportCSV()">CSV EXPORT</button>
+      </div>
+      <div class="filter-row">
+        <input type="text" class="search-input" id="searchInput" placeholder="이름, 연락처 검색..." oninput="renderTable()" />
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th><th>Date</th><th>Name</th><th>Phone</th><th>Address</th>
+              <th>Reservation</th><th>Concern</th><th>Service</th><th>Source</th><th>Video</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </div>
   </div>
 
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Date</th>
-          <th>Name</th>
-          <th>Phone</th>
-          <th>Address</th>
-          <th>Reservation</th>
-          <th>Concern</th>
-          <th>Service</th>
-          <th>Source</th>
-          <th>Video</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody id="tableBody"></tbody>
-    </table>
+  <!-- 리뷰 탭 -->
+  <div class="tab-panel" id="tab-review">
+    <div class="panel-wrap">
+      <div class="stat-row" id="reviewStatRow"></div>
+      <div class="section-header">
+        <div class="section-title">Customer Reviews</div>
+      </div>
+      <div class="filter-row">
+        <select class="filter-select" id="filterRating" onchange="renderReviews()">
+          <option value="">별점 전체</option>
+          <option value="5">⭐⭐⭐⭐⭐ 5점</option>
+          <option value="4">⭐⭐⭐⭐ 4점</option>
+          <option value="low">⭐⭐⭐ 3점 이하</option>
+        </select>
+        <select class="filter-select" id="filterRevisit" onchange="renderReviews()">
+          <option value="">재방문 전체</option>
+          <option value="yes">재방문 예정</option>
+          <option value="maybe">고민 중</option>
+          <option value="no">재방문 없음</option>
+        </select>
+      </div>
+      <div id="reviewsContainer"><div class="empty">LOADING...</div></div>
+    </div>
   </div>
 </div>
 
-<!-- 상세 모달 -->
+<!-- 상담 상세 모달 -->
 <div class="modal-bg" id="modalBg" onclick="if(event.target===this) closeModal()">
   <div class="modal">
     <div class="modal-title">Customer Detail</div>
@@ -245,45 +251,64 @@
 <script>
   let adminPassword = '';
   let allData = [];
+  let allReviews = [];
 
   function doLogin() {
     adminPassword = document.getElementById('pwInput').value;
-    fetchData();
+    Promise.all([fetchConsultations(), fetchReviews()]).then(([ok]) => {
+      if (ok) {
+        document.getElementById('loginWrap').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+      }
+    });
   }
 
-  async function fetchData() {
+  async function fetchConsultations() {
     try {
-      const res = await fetch('/api/ahead/submissions', {
-        headers: { 'x-admin-password': adminPassword }
-      });
+      const res = await fetch('/api/ahead/submissions', { headers: { 'x-admin-password': adminPassword } });
       const data = await res.json();
       if (!data.success) {
         document.getElementById('loginErr').style.display = 'block';
-        return;
+        return false;
       }
       allData = data.data.reverse();
-      document.getElementById('loginWrap').style.display = 'none';
-      document.getElementById('dashboard').style.display = 'block';
       renderStats();
       renderTable();
+      return true;
     } catch {
       document.getElementById('loginErr').style.display = 'block';
+      return false;
     }
   }
 
+  async function fetchReviews() {
+    try {
+      const res = await fetch('/api/ahead/reviews', { headers: { 'x-admin-password': adminPassword } });
+      if (!res.ok) return;
+      const data = await res.json();
+      allReviews = [...data.data].reverse();
+      renderReviewStats();
+      renderReviews();
+    } catch {}
+  }
+
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', (i === 0 && tab === 'consultation') || (i === 1 && tab === 'review')));
+    document.getElementById('tab-consultation').classList.toggle('active', tab === 'consultation');
+    document.getElementById('tab-review').classList.toggle('active', tab === 'review');
+  }
+
+  /* ── 상담 내역 ── */
   function renderStats() {
     const total = allData.length;
     const today = new Date().toISOString().slice(0, 10);
     const todayCount = allData.filter(d => d.submittedAt.startsWith(today)).length;
-
     const sourceMap = {};
     allData.forEach(d => { sourceMap[d.visitSource] = (sourceMap[d.visitSource] || 0) + 1; });
     const topSource = Object.entries(sourceMap).sort((a, b) => b[1] - a[1])[0];
-
     const serviceMap = {};
     allData.forEach(d => (d.desiredServices || []).forEach(s => { serviceMap[s] = (serviceMap[s] || 0) + 1; }));
     const topService = Object.entries(serviceMap).sort((a, b) => b[1] - a[1])[0];
-
     document.getElementById('statRow').innerHTML = `
       <div class="stat-card highlight"><div class="stat-label">Total</div><div class="stat-val">${total} <span>건</span></div></div>
       <div class="stat-card"><div class="stat-label">Today</div><div class="stat-val">${todayCount} <span>건</span></div></div>
@@ -294,31 +319,22 @@
 
   function renderTable() {
     const q = document.getElementById('searchInput').value.toLowerCase();
-    const rows = allData.filter(d =>
-      d.name.toLowerCase().includes(q) || d.phone.includes(q)
-    );
-
+    const rows = allData.filter(d => d.name.toLowerCase().includes(q) || d.phone.includes(q));
     const tbody = document.getElementById('tableBody');
-    if (rows.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="11" class="empty">NO RECORDS FOUND</td></tr>';
-      return;
-    }
-
+    if (!rows.length) { tbody.innerHTML = '<tr><td colspan="11" class="empty">NO RECORDS FOUND</td></tr>'; return; }
     tbody.innerHTML = rows.map((d, i) => `
       <tr onclick="openModal(${d.id})" style="cursor:pointer">
         <td style="color:var(--text-muted);font-size:11px">${rows.length - i}</td>
         <td style="font-size:12px;white-space:nowrap">${formatDate(d.submittedAt)}</td>
         <td><strong>${d.name}</strong></td>
         <td style="color:var(--text-muted)">${d.phone}</td>
-        <td style="color:var(--text-muted);font-size:12px">${d.address}</td>
-        <td><span class="tag">${d.reservationType}</span></td>
+        <td style="color:var(--text-muted);font-size:12px">${d.address || ''}</td>
+        <td><span class="tag">${d.reservationType || ''}</span></td>
         <td>${(d.scalpConcerns || []).map(t => `<span class="tag">${t}</span>`).join('')}</td>
         <td>${(d.desiredServices || []).map(t => `<span class="tag service">${t}</span>`).join('')}</td>
-        <td><span class="tag source">${d.visitSource}</span></td>
+        <td><span class="tag source">${d.visitSource || ''}</span></td>
         <td style="text-align:center">${d.videoConsent === '동의' ? '✅' : '❌'}</td>
-        <td onclick="event.stopPropagation()">
-          <button class="del-btn" onclick="deleteEntry(${d.id})">DEL</button>
-        </td>
+        <td onclick="event.stopPropagation()"><button class="del-btn" onclick="deleteEntry(${d.id})">DEL</button></td>
       </tr>
     `).join('');
   }
@@ -333,58 +349,99 @@
     if (!d) return;
     document.getElementById('modalContent').innerHTML = `
       <div class="modal-row"><div class="modal-key">Name</div><div class="modal-val">${d.name}</div></div>
-      <div class="modal-row"><div class="modal-key">Birth</div><div class="modal-val">${d.birthdate}</div></div>
+      <div class="modal-row"><div class="modal-key">Birth</div><div class="modal-val">${d.birthdate || '-'}</div></div>
       <div class="modal-row"><div class="modal-key">Phone</div><div class="modal-val">${d.phone}</div></div>
-      <div class="modal-row"><div class="modal-key">Address</div><div class="modal-val">${d.address}</div></div>
-      <div class="modal-row"><div class="modal-key">예약 유형</div><div class="modal-val">${d.reservationType}</div></div>
-      <div class="modal-row"><div class="modal-key">상담 유형</div><div class="modal-val">${d.consultationType}</div></div>
+      <div class="modal-row"><div class="modal-key">Address</div><div class="modal-val">${d.address || '-'}</div></div>
+      <div class="modal-row"><div class="modal-key">예약 유형</div><div class="modal-val">${d.reservationType || '-'}</div></div>
+      <div class="modal-row"><div class="modal-key">상담 유형</div><div class="modal-val">${d.consultationType || '-'}</div></div>
       <div class="modal-row"><div class="modal-key">치료 이력</div><div class="modal-val">${(d.treatmentHistory||[]).join(', ') || '없음'}</div></div>
-      <div class="modal-row"><div class="modal-key">유입 경로</div><div class="modal-val">${d.visitSource}</div></div>
-      <div class="modal-row"><div class="modal-key">두피 고민</div><div class="modal-val">${(d.scalpConcerns||[]).join(', ')}</div></div>
+      <div class="modal-row"><div class="modal-key">유입 경로</div><div class="modal-val">${d.visitSource || '-'}</div></div>
+      <div class="modal-row"><div class="modal-key">두피 고민</div><div class="modal-val">${(d.scalpConcerns||[]).join(', ') || '-'}</div></div>
       <div class="modal-row"><div class="modal-key">펌/염색</div><div class="modal-val">${d.permDyeHistory || '미입력'}</div></div>
-      <div class="modal-row"><div class="modal-key">샴푸 횟수</div><div class="modal-val">${d.shampooFrequency}</div></div>
-      <div class="modal-row"><div class="modal-key">서비스</div><div class="modal-val">${(d.desiredServices||[]).join(', ')}</div></div>
-      <div class="modal-row"><div class="modal-key">영상 촬영</div><div class="modal-val">${d.videoConsent}</div></div>
+      <div class="modal-row"><div class="modal-key">샴푸 횟수</div><div class="modal-val">${d.shampooFrequency || '-'}</div></div>
+      <div class="modal-row"><div class="modal-key">서비스</div><div class="modal-val">${(d.desiredServices||[]).join(', ') || '-'}</div></div>
+      <div class="modal-row"><div class="modal-key">영상 촬영</div><div class="modal-val">${d.videoConsent || '-'}</div></div>
       <div class="modal-row"><div class="modal-key">제출 일시</div><div class="modal-val">${new Date(d.submittedAt).toLocaleString('ko-KR')}</div></div>
     `;
     document.getElementById('modalBg').classList.add('show');
   }
 
-  function closeModal() {
-    document.getElementById('modalBg').classList.remove('show');
-  }
+  function closeModal() { document.getElementById('modalBg').classList.remove('show'); }
 
   async function deleteEntry(id) {
     if (!confirm('이 항목을 삭제하시겠습니까?')) return;
-    await fetch(`/api/ahead/submissions/${id}`, {
-      method: 'DELETE',
-      headers: { 'x-admin-password': adminPassword }
-    });
+    await fetch(`/api/ahead/submissions/${id}`, { method: 'DELETE', headers: { 'x-admin-password': adminPassword } });
     allData = allData.filter(d => d.id !== id);
-    renderStats();
-    renderTable();
+    renderStats(); renderTable();
   }
 
   function exportCSV() {
     const headers = ['제출일시','이름','생년월일','연락처','주소','예약유형','상담유형','치료이력','유입경로','두피고민','펌염색이력','샴푸횟수','원하는서비스','영상동의'];
     const rows = allData.map(d => [
-      new Date(d.submittedAt).toLocaleString('ko-KR'),
-      d.name, d.birthdate, d.phone, d.address,
-      d.reservationType, d.consultationType,
-      (d.treatmentHistory||[]).join('|'),
-      d.visitSource,
-      (d.scalpConcerns||[]).join('|'),
-      d.permDyeHistory||'',
-      d.shampooFrequency,
-      (d.desiredServices||[]).join('|'),
-      d.videoConsent,
+      new Date(d.submittedAt).toLocaleString('ko-KR'), d.name, d.birthdate, d.phone, d.address,
+      d.reservationType, d.consultationType, (d.treatmentHistory||[]).join('|'), d.visitSource,
+      (d.scalpConcerns||[]).join('|'), d.permDyeHistory||'', d.shampooFrequency,
+      (d.desiredServices||[]).join('|'), d.videoConsent,
     ]);
-    const csv = [headers, ...rows].map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+    const csv = [headers, ...rows].map(r => r.map(c => `"${String(c||'').replace(/"/g,'""')}"`).join(',')).join('\n');
     const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url; a.download = `ahead_상담내역_${new Date().toISOString().slice(0,10)}.csv`;
-    a.click(); URL.revokeObjectURL(url);
+    a.href = URL.createObjectURL(blob);
+    a.download = `ahead_상담내역_${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+  }
+
+  /* ── 리뷰 ── */
+  function renderReviewStats() {
+    const total = allReviews.length;
+    const avgOverall = total ? (allReviews.reduce((s, r) => s + (r.overallRating||0), 0) / total).toFixed(1) : '-';
+    const avgStaff = total ? (allReviews.reduce((s, r) => s + (r.staffRating||0), 0) / total).toFixed(1) : '-';
+    const revisitPct = total ? Math.round(allReviews.filter(r => r.revisit === 'yes').length / total * 100) + '%' : '-';
+    document.getElementById('reviewStatRow').innerHTML = `
+      <div class="stat-card highlight"><div class="stat-label">Total Reviews</div><div class="stat-val">${total} <span>건</span></div></div>
+      <div class="stat-card"><div class="stat-label">평균 만족도</div><div class="stat-val">${avgOverall} <span>/ 5</span></div></div>
+      <div class="stat-card"><div class="stat-label">평균 직원 응대</div><div class="stat-val">${avgStaff} <span>/ 5</span></div></div>
+      <div class="stat-card"><div class="stat-label">재방문 의향</div><div class="stat-val">${revisitPct}</div></div>
+    `;
+  }
+
+  function renderReviews() {
+    const fr = document.getElementById('filterRating').value;
+    const fv = document.getElementById('filterRevisit').value;
+    const filtered = allReviews.filter(r => {
+      if (fr === '5' && r.overallRating !== 5) return false;
+      if (fr === '4' && r.overallRating !== 4) return false;
+      if (fr === 'low' && r.overallRating > 3) return false;
+      if (fv && r.revisit !== fv) return false;
+      return true;
+    });
+    const container = document.getElementById('reviewsContainer');
+    if (!filtered.length) { container.innerHTML = '<div class="empty">리뷰가 없어요.</div>'; return; }
+    container.innerHTML = filtered.map(r => {
+      const isBad = r.overallRating <= 2;
+      const isGood = r.overallRating >= 4;
+      const date = new Date(r.submittedAt).toLocaleString('ko-KR', { year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' });
+      const revisitBadge = r.revisit === 'yes' ? '<span class="revisit-badge yes">재방문 예정 😍</span>' : r.revisit === 'maybe' ? '<span class="revisit-badge maybe">고민 중 🤔</span>' : r.revisit === 'no' ? '<span class="revisit-badge no">재방문 없음 😔</span>' : '';
+      return `
+      <div class="review-card ${isBad ? 'bad' : isGood ? 'good' : ''}">
+        <button class="r-del-btn" onclick="deleteReview(${r.id})">🗑</button>
+        <div class="review-top"><div class="review-date">${date}</div>${revisitBadge}</div>
+        <div class="review-ratings">
+          <div class="r-item"><div class="r-label">전체 만족도</div><div class="r-stars">${'⭐'.repeat(r.overallRating||0)}</div></div>
+          <div class="r-item"><div class="r-label">직원 응대</div><div class="r-stars">${'⭐'.repeat(r.staffRating||0)}</div></div>
+          <div class="r-item"><div class="r-label">시술 결과</div><div class="r-stars">${'⭐'.repeat(r.resultRating||0)}</div></div>
+        </div>
+        ${r.improvement ? `<div class="review-text complaint"><div class="t-label">불편사항</div>${r.improvement}</div>` : ''}
+        ${r.comment ? `<div class="review-text"><div class="t-label">후기</div>${r.comment}</div>` : ''}
+      </div>`;
+    }).join('');
+  }
+
+  async function deleteReview(id) {
+    if (!confirm('이 리뷰를 삭제할까요?')) return;
+    await fetch(`/api/ahead/reviews/${id}`, { method: 'DELETE', headers: { 'x-admin-password': adminPassword } });
+    allReviews = allReviews.filter(r => r.id !== id);
+    renderReviewStats(); renderReviews();
   }
 </script>
 </body>
