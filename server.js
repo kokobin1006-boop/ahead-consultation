@@ -93,6 +93,11 @@ async function deleteSubmission(brand, id) {
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// 루트 경로는 항상 aHEAD 폼으로 고정
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'ahead.html'));
+});
+
 
 
 // ── Scálpit API ──
